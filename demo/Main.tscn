@@ -1,0 +1,82 @@
+[gd_scene load_steps=4 format=3 uid="uid://daro5x6n3pd26"]
+
+[ext_resource type="Script" path="res://Main.gd" id="1_wt50o"]
+[ext_resource type="Script" path="res://addons/GodotAndroidAdmobPlugin/Admob.gd" id="2_4x6et"]
+[ext_resource type="Texture2D" uid="uid://w8wc50p241ip" path="res://admob.png" id="2_qti4s"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_wt50o")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+texture = ExtResource("2_qti4s")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Admob Demo"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 11
+
+[node name="BannerButton" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Show Banner
+"
+
+[node name="InterstitialButton" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Show Interstitial"
+
+[node name="RewardedInterstitialButton" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Show Rewarded Interstitial"
+
+[node name="RewardedVideoButton" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Show Rewarded Video"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+scroll_following = true
+
+[node name="Admob" type="Node" parent="."]
+script = ExtResource("2_4x6et")
+is_personalized = false
+debug_application_id = "ca-app-pub-3940256099942544~3347511713"
+debug_banner_id = "ca-app-pub-3940256099942544/6300978111"
+debug_interstitial_id = "ca-app-pub-3940256099942544/1033173712"
+debug_rewarded_id = "ca-app-pub-3940256099942544/5224354917"
+debug_rewarded_interstitial_id = "ca-app-pub-3940256099942544/5354046379"
+
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/BannerButton" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_banner_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/InterstitialButton" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_interstitial_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/RewardedInterstitialButton" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_rewarded_interstitial_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/RewardedVideoButton" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_rewarded_video_button_pressed"]
+[connection signal="banner_failed_to_load" from="Admob" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_admob_banner_failed_to_load"]
+[connection signal="banner_loaded" from="Admob" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_admob_banner_loaded"]
+[connection signal="interstitial_failed_to_load" from="Admob" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_admob_interstitial_failed_to_load"]
+[connection signal="interstitial_loaded" from="Admob" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_admob_interstitial_loaded"]
+[connection signal="rewarded_interstitial_failed_to_load" from="Admob" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_admob_rewarded_interstitial_failed_to_load"]
+[connection signal="rewarded_interstitial_loaded" from="Admob" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_admob_rewarded_interstitial_loaded"]
+[connection signal="rewarded_video_failed_to_load" from="Admob" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_admob_rewarded_video_failed_to_load"]
+[connection signal="rewarded_video_loaded" from="Admob" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_admob_rewarded_video_loaded"]
