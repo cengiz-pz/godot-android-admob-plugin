@@ -27,14 +27,14 @@ Steps:
   - click `Change Install Folder` button and select your project's `addons` directory
   - uncheck `Ignore asset root` checkbox
   - click `Install` button
-- enable the plugin via `Project->Export...->Android` in the Godot Editor
+- enable the plugin via the `Plugins` tab of `Project->Project Settings...` menu, in the Godot Editor
 
 ### ![](admob/addon_template/icon.png?raw=true) Installing manually
 Steps:
 - download release archive from Github
 - unzip the release archive
 - copy to your Godot project's `addons` directory
-- enable the plugin via `Project->Export...->Android` in the Godot Editor
+- enable the plugin via the `Plugins` tab of `Project->Project Settings...` menu, in the Godot Editor
 
 ## ![](admob/addon_template/icon.png?raw=true) Usage
 - Add `Admob` node to your main scene and populate the ID fields of the node
