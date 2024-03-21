@@ -6,8 +6,10 @@ displaying of Admob ads.
 _Based on Shin-NiL's [Godot AdMob plugin](https://github.com/Shin-NiL/Godot-Android-Admob-Plugin)_
 
 ## ![](admob/addon_template/icon.png?raw=true) Prerequisites
-Follow instructions on the following page to create a custom Android build
-- [Create custom Android build](https://docs.godotengine.org/en/stable/tutorials/export/android_custom_build.html)
+Follow instructions on the following page to create a custom Android gradle build
+- [Create custom Android gradle build](https://docs.godotengine.org/en/stable/tutorials/export/android_gradle_build.html)
+
+- Create an `addons` directory in your project's root level.
 
 Create an AdMob account at the following link:
 - [Google AdMob](https://admob.google.com/)
