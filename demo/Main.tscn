@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Main.gd" id="1_wt50o"]
 [ext_resource type="Script" path="res://addons/GodotAndroidAdmobPlugin/Admob.gd" id="2_4x6et"]
-[ext_resource type="Texture2D" uid="uid://w8wc50p241ip" path="res://admob.png" id="2_qti4s"]
+[ext_resource type="Texture2D" uid="uid://bx1uewpwixc3b" path="res://admob.png" id="2_qti4s"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_wt50o")
@@ -62,21 +62,22 @@ scroll_following = true
 [node name="Admob" type="Node" parent="."]
 script = ExtResource("2_4x6et")
 is_personalized = false
+banner_size = "LARGE_BANNER"
 debug_application_id = "ca-app-pub-3940256099942544~3347511713"
 debug_banner_id = "ca-app-pub-3940256099942544/6300978111"
 debug_interstitial_id = "ca-app-pub-3940256099942544/1033173712"
 debug_rewarded_id = "ca-app-pub-3940256099942544/5224354917"
 debug_rewarded_interstitial_id = "ca-app-pub-3940256099942544/5354046379"
 
-[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/BannerButton" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_banner_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/InterstitialButton" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_interstitial_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/RewardedInterstitialButton" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_rewarded_interstitial_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/RewardedVideoButton" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_rewarded_video_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/BannerButton" to="." method="_on_banner_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/InterstitialButton" to="." method="_on_interstitial_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/RewardedInterstitialButton" to="." method="_on_rewarded_interstitial_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/RewardedVideoButton" to="." method="_on_rewarded_video_button_pressed"]
 [connection signal="banner_failed_to_load" from="Admob" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_admob_banner_failed_to_load"]
-[connection signal="banner_loaded" from="Admob" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_admob_banner_loaded"]
+[connection signal="banner_loaded" from="Admob" to="." method="_on_admob_banner_loaded"]
 [connection signal="interstitial_failed_to_load" from="Admob" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_admob_interstitial_failed_to_load"]
-[connection signal="interstitial_loaded" from="Admob" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_admob_interstitial_loaded"]
+[connection signal="interstitial_loaded" from="Admob" to="." method="_on_admob_interstitial_loaded"]
 [connection signal="rewarded_interstitial_failed_to_load" from="Admob" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_admob_rewarded_interstitial_failed_to_load"]
-[connection signal="rewarded_interstitial_loaded" from="Admob" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_admob_rewarded_interstitial_loaded"]
+[connection signal="rewarded_interstitial_loaded" from="Admob" to="." method="_on_admob_rewarded_interstitial_loaded"]
 [connection signal="rewarded_video_failed_to_load" from="Admob" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_admob_rewarded_video_failed_to_load"]
-[connection signal="rewarded_video_loaded" from="Admob" to="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer" method="_on_admob_rewarded_video_loaded"]
+[connection signal="rewarded_video_loaded" from="Admob" to="." method="_on_admob_rewarded_video_loaded"]

@@ -8,7 +8,7 @@ plugins {
 
 val pluginName = "GodotAndroidAdmobPlugin"
 val pluginPackageName = "org.godotengine.plugin.android.admob"
-val godotVersion = "4.2.1"
+val godotVersion = "4.2.2"
 var pluginVersion = "1.0"
 var demoAddOnsDirectory = "../demo/addons"
 var templateDirectory = "addon_template"
@@ -42,7 +42,7 @@ android {
 
 dependencies {
     implementation("org.godotengine:godot:$godotVersion.stable")
-    implementation("com.google.android.gms:play-services-ads:22.6.0")
+    implementation("com.google.android.gms:play-services-ads:23.0.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
 }
 

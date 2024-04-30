@@ -17,6 +17,7 @@ func _ready() -> void:
 
 
 func _on_banner_button_pressed() -> void:
+	print(" ------- Banner button PRESSED")
 	if _is_banner_loaded:
 		_is_banner_loaded = false
 		admob.show_banner()
@@ -25,6 +26,7 @@ func _on_banner_button_pressed() -> void:
 
 
 func _on_interstitial_button_pressed() -> void:
+	print(" ------- Interstitial button PRESSED")
 	if _is_interstitial_loaded:
 		_is_interstitial_loaded = false
 		admob.show_interstitial()
@@ -41,6 +43,7 @@ func _on_rewarded_interstitial_button_pressed() -> void:
 
 
 func _on_rewarded_video_button_pressed() -> void:
+	print(" ------- Revarded video button PRESSED")
 	if _is_rewarded_video_loaded:
 		_is_rewarded_video_loaded = false
 		admob.show_rewarded_video()
