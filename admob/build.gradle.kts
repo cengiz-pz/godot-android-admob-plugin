@@ -1,3 +1,7 @@
+//
+// © 2024-present https://github.com/cengiz-pz
+//
+
 import com.android.build.gradle.internal.tasks.factory.dependsOn
 import org.apache.tools.ant.filters.ReplaceTokens
 
@@ -6,12 +10,16 @@ plugins {
     id("org.jetbrains.kotlin.android") version "1.6.0"
 }
 
-val pluginName = "GodotAndroidAdmobPlugin"
+val pluginName = "AdmobPlugin"
 val pluginPackageName = "org.godotengine.plugin.android.admob"
 val godotVersion = "4.2.2"
-var pluginVersion = "1.0"
-var demoAddOnsDirectory = "../demo/addons"
-var templateDirectory = "addon_template"
+val pluginVersion = "2.0"
+val demoAddOnsDirectory = "../demo/addons"
+val templateDirectory = "addon_template"
+val pluginDependencies = arrayOf(
+    "androidx.appcompat:appcompat:1.6.1",
+    "com.google.android.gms:play-services-ads:23.0.0"
+)
 
 android {
     namespace = pluginPackageName
@@ -42,8 +50,7 @@ android {
 
 dependencies {
     implementation("org.godotengine:godot:$godotVersion.stable")
-    implementation("com.google.android.gms:play-services-ads:23.0.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    pluginDependencies.forEach { implementation(it) }
 }
 
 val copyDebugAARToDemoAddons by tasks.registering(Copy::class) {
@@ -82,11 +89,26 @@ val copyAddonsToDemo by tasks.registering(Copy::class) {
     from(templateDirectory)
     into("$demoAddOnsDirectory/$pluginName")
     exclude("**/*.png")
+    var dependencyString = ""
+    for (i in pluginDependencies.indices) {
+        dependencyString += "\"${pluginDependencies[i]}\""
+        if (i < pluginDependencies.size-1) dependencyString += ", "
+    }
     filter(ReplaceTokens::class,
         "tokens" to mapOf(
             "pluginName" to pluginName,
             "pluginVersion" to pluginVersion,
-            "pluginPackage" to pluginPackageName))
+            "pluginPackage" to pluginPackageName,
+            "pluginDependencies" to dependencyString))
+}
+
+tasks.register<Zip>("packageDistribution") {
+    archiveFileName.set("${pluginName}-${pluginVersion}.zip")
+    destinationDirectory.set(layout.buildDirectory.dir("dist"))
+
+    from("../demo/addons/${pluginName}") {
+        into("addons/${pluginName}")
+    }
 }
 
 tasks.named<Delete>("clean").apply {

@@ -1,3 +1,7 @@
+//
+// © 2024-present https://github.com/cengiz-pz
+//
+
 package org.godotengine.plugin.android.admob;
 
 import android.app.Activity;
@@ -9,108 +13,140 @@ import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
+import com.google.android.gms.ads.rewarded.ServerSideVerificationOptions;
 
 interface RewardedVideoListener {
-    void onRewardedVideoLoaded();
-    void onRewardedVideoFailedToLoad(int errorCode);
-    void onRewardedVideoFailedToShow(int errorCode);
-    void onRewardedVideoOpened();
-    void onRewardedVideoClosed();
-    void onRewarded(String type, int amount);
-    void onRewardedClicked();
-    void onRewardedAdImpression();
+	void onRewardedVideoLoaded(String adId);
+	void onRewardedVideoFailedToLoad(String adId, LoadAdError loadAdError);
+	void onRewardedVideoOpened(String adId);
+	void onRewardedVideoFailedToShow(String adId, AdError adError);
+	void onRewardedVideoClosed(String adId);
+	void onRewardedClicked(String adId);
+	void onRewardedAdImpression(String adId);
+	void onRewarded(String adId, RewardItem reward);
 }
 
 public class RewardedVideo {
-    private static final String CLASS_NAME = RewardedVideo.class.getSimpleName();
-    private static final String LOG_TAG = "godot::" + GodotAndroidAdmobPlugin.CLASS_NAME + "::" + CLASS_NAME;
-    private RewardedAd rewardedAd = null;
-    private final Activity activity;
-    private final RewardedVideoListener listener;
+	private static final String CLASS_NAME = RewardedVideo.class.getSimpleName();
+	private static final String LOG_TAG = "godot::" + AdmobPlugin.CLASS_NAME + "::" + CLASS_NAME;
 
-    public RewardedVideo(Activity activity, final RewardedVideoListener listener) {
-        this.activity = activity;
-        this.listener = listener;
-        MobileAds.initialize(activity);
-    }
+	private final String adId;
+	private final String adUnitId;
+	private final AdRequest adRequest;
+	private final Activity activity;
+	private final RewardedVideoListener listener;
 
-    public void load(final String id, AdRequest adRequest) {
+	private RewardedAd rewardedAd;
+	private ServerSideVerificationOptions serverSideVerificationOptions;
 
-        RewardedAd.load(activity, id, adRequest, new RewardedAdLoadCallback() {
-            @Override
-            public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
-                super.onAdLoaded(rewardedAd);
-                setAd(rewardedAd);
-                Log.i(LOG_TAG, "rewarded video ad loaded");
-                listener.onRewardedVideoLoaded();
-            }
+	public RewardedVideo(final String adId, final String adUnitId, final AdRequest adRequest, Activity activity,
+				final RewardedVideoListener listener) {
+		this.adId = adId;
+		this.adUnitId = adUnitId;
+		this.adRequest = adRequest;
+		this.activity = activity;
+		this.listener = listener;
+		this.rewardedAd = null;
+		this.serverSideVerificationOptions = null;
+	}
 
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                super.onAdFailedToLoad(loadAdError);
-                // safety
-                setAd(null);
-                Log.e(LOG_TAG, "rewarded video ad failed to load. errorCode: " + loadAdError.getCode());
-                listener.onRewardedVideoFailedToLoad(loadAdError.getCode());
-            }
-        });
-    }
+	public void load() {
+		RewardedAd.load(activity, adUnitId, adRequest, new RewardedAdLoadCallback() {
+			@Override
+			public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
+				super.onAdLoaded(rewardedAd);
+				setAd(rewardedAd);
+				Log.i(LOG_TAG, "rewarded video ad loaded");
+				listener.onRewardedVideoLoaded(adId);
+			}
 
-    public void show() {
-        if (rewardedAd != null) {
-            rewardedAd.show(activity, rewardItem -> {
-                Log.i(LOG_TAG, String.format("rewarded video ad reward received! currency: %s amount: %d", rewardItem.getType(), rewardItem.getAmount()));
-                listener.onRewarded(rewardItem.getType(), rewardItem.getAmount());
-            });
-        }
-    }
+			@Override
+			public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+				super.onAdFailedToLoad(loadAdError);
+				// safety
+				setAd(null);
+				Log.e(LOG_TAG, "rewarded video ad failed to load. errorCode: " + loadAdError.getCode());
+				listener.onRewardedVideoFailedToLoad(adId, loadAdError);
+			}
+		});
+	}
 
-    private void setAd(RewardedAd rewardedAd) {
-        // Avoid memory leaks.
-        if (this.rewardedAd != null)
-            this.rewardedAd.setFullScreenContentCallback(null);
+	public void show() {
+		if (rewardedAd != null) {
+			rewardedAd.show(activity, rewardItem -> {
+				Log.i(LOG_TAG, String.format("rewarded video ad reward received! currency: %s amount: %d", rewardItem.getType(), rewardItem.getAmount()));
+				listener.onRewarded(adId, rewardItem);
+			});
+		}
+	}
 
-        if (rewardedAd != null) {
-            rewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-                @Override
-                public void onAdClicked() {
-                    super.onAdClicked();
-                    Log.i(LOG_TAG, "rewarded video ad clicked");
-                    listener.onRewardedClicked();
-                }
+	private void setAd(RewardedAd rewardedAd) {
+		if (rewardedAd == this.rewardedAd) {
+			Log.w(LOG_TAG, "setAd(): rewarded already set");
+		}
+		else {
+			// Avoid memory leaks.
+			if (this.rewardedAd != null)
+				this.rewardedAd.setFullScreenContentCallback(null);
 
-                @Override
-                public void onAdDismissedFullScreenContent() {
-                    super.onAdDismissedFullScreenContent();
-                    Log.w(LOG_TAG, "rewarded video ad dismissed full screen content");
-                    listener.onRewardedVideoClosed();
-                }
+			if (rewardedAd != null) {
+				rewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+					@Override
+					public void onAdClicked() {
+						super.onAdClicked();
+						Log.i(LOG_TAG, "rewarded video ad clicked");
+						listener.onRewardedClicked(adId);
+					}
 
-                @Override
-                public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
-                    super.onAdFailedToShowFullScreenContent(adError);
-                    Log.e(LOG_TAG, "rewarded video ad failed to show full screen content");
-                    listener.onRewardedVideoFailedToShow(adError.getCode());
-                }
+					@Override
+					public void onAdDismissedFullScreenContent() {
+						super.onAdDismissedFullScreenContent();
+						Log.w(LOG_TAG, "rewarded video ad dismissed full screen content");
+						listener.onRewardedVideoClosed(adId);
+					}
 
-                @Override
-                public void onAdImpression() {
-                    super.onAdImpression();
-                    Log.i(LOG_TAG, "rewarded video ad impression");
-                    listener.onRewardedAdImpression();
-                }
+					@Override
+					public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
+						super.onAdFailedToShowFullScreenContent(adError);
+						Log.e(LOG_TAG, "rewarded video ad failed to show full screen content");
+						listener.onRewardedVideoFailedToShow(adId, adError);
+					}
 
-                @Override
-                public void onAdShowedFullScreenContent() {
-                    super.onAdShowedFullScreenContent();
-                    Log.i(LOG_TAG, "rewarded video ad showed full screen content");
-                    listener.onRewardedVideoOpened();
-                }
-            });
-        }
-        this.rewardedAd = rewardedAd;
-    }
+					@Override
+					public void onAdImpression() {
+						super.onAdImpression();
+						Log.i(LOG_TAG, "rewarded video ad impression");
+						listener.onRewardedAdImpression(adId);
+					}
+
+					@Override
+					public void onAdShowedFullScreenContent() {
+						super.onAdShowedFullScreenContent();
+						Log.i(LOG_TAG, "rewarded video ad showed full screen content");
+						listener.onRewardedVideoOpened(adId);
+					}
+				});
+			}
+
+			if (serverSideVerificationOptions != null) {
+				rewardedAd.setServerSideVerificationOptions(serverSideVerificationOptions);
+			}
+
+			this.rewardedAd = rewardedAd;
+		}
+	}
+
+	public void setServerSideVerificationOptions(ServerSideVerificationOptions ssvo) {
+		this.serverSideVerificationOptions = ssvo;
+
+		if (rewardedAd == null) {
+			Log.w(LOG_TAG, "setServerSideVerificationOptions(): Ad is null. SSVO will be set when ad is loaded.");
+		}
+		else {
+			rewardedAd.setServerSideVerificationOptions(ssvo);
+		}
+	}
 }
