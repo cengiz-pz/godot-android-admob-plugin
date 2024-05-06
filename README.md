@@ -49,6 +49,7 @@ Steps:
   - `initialization_completed(status_data: InitializationStatus)`
   - `banner_ad_loaded(ad_id: String)`
   - `banner_ad_failed_to_load(ad_id: String, error_data: LoadAdError)`
+  - `banner_ad_refreshed(ad_id: String)`
   - `banner_ad_clicked(ad_id: String)`
   - `banner_ad_impression(ad_id: String)`
   - `banner_ad_opened(ad_id: String)`
@@ -120,6 +121,7 @@ Steps:
 Also check out:
 https://docs.godotengine.org/en/stable/tutorials/platform/android/android_plugin.html#troubleshooting
 <br/><br/><br/>
+
 ---
 # ![](admob/addon_template/icon.png?raw=true) Credits
 Based on [Shin-NiL](https://github.com/Shin-NiL)'s [Godot Admob Plugin](https://github.com/Shin-NiL/Godot-Android-Admob-Plugin)

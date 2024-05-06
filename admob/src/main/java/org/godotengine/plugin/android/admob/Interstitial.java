@@ -73,7 +73,7 @@ public class Interstitial {
 					public void onAdClicked() {
 						super.onAdClicked();
 						Log.i(LOG_TAG, "interstitial ad clicked");
-						listener.onInterstitialClicked(adId);
+						listener.onInterstitialClicked(Interstitial.this.adId);
 					}
 
 					@Override
@@ -81,7 +81,7 @@ public class Interstitial {
 						super.onAdDismissedFullScreenContent();
 						setAd(null);
 						Log.w(LOG_TAG, "interstitial ad dismissed full screen consent");
-						listener.onInterstitialClosed(adId);
+						listener.onInterstitialClosed(Interstitial.this.adId);
 						load();
 					}
 
@@ -89,21 +89,21 @@ public class Interstitial {
 					public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
 						super.onAdFailedToShowFullScreenContent(adError);
 						Log.e(LOG_TAG, "interstitial ad failed to show full screen content");
-						listener.onInterstitialFailedToShow(adId, adError);
+						listener.onInterstitialFailedToShow(Interstitial.this.adId, adError);
 					}
 
 					@Override
 					public void onAdShowedFullScreenContent() {
 						super.onAdShowedFullScreenContent();
 						Log.i(LOG_TAG, "interstitial ad showed full screen content");
-						listener.onInterstitialOpened(adId);
+						listener.onInterstitialOpened(Interstitial.this.adId);
 					}
 
 					@Override
 					public void onAdImpression() {
 						super.onAdImpression();
 						Log.i(LOG_TAG, "interstitial ad impression");
-						listener.onInterstitialImpression(adId);
+						listener.onInterstitialImpression(Interstitial.this.adId);
 					}
 				});
 			}
@@ -119,7 +119,7 @@ public class Interstitial {
 				super.onAdLoaded(interstitialAd);
 				setAd(interstitialAd);
 				Log.i(LOG_TAG, "interstitial ad loaded");
-				listener.onInterstitialLoaded(adId);
+				listener.onInterstitialLoaded(Interstitial.this.adId);
 			}
 
 			@Override
@@ -127,7 +127,7 @@ public class Interstitial {
 				super.onAdFailedToLoad(loadAdError);
 				setAd(null);	// safety
 				Log.e(LOG_TAG, "interstitial ad failed to load - error code: " + loadAdError.getCode());
-				listener.onInterstitialFailedToLoad(adId, loadAdError);
+				listener.onInterstitialFailedToLoad(Interstitial.this.adId, loadAdError);
 			}
 		});
 	}

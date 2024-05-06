@@ -60,7 +60,7 @@ public class RewardedVideo {
 				super.onAdLoaded(rewardedAd);
 				setAd(rewardedAd);
 				Log.i(LOG_TAG, "rewarded video ad loaded");
-				listener.onRewardedVideoLoaded(adId);
+				listener.onRewardedVideoLoaded(RewardedVideo.this.adId);
 			}
 
 			@Override
@@ -69,7 +69,7 @@ public class RewardedVideo {
 				// safety
 				setAd(null);
 				Log.e(LOG_TAG, "rewarded video ad failed to load. errorCode: " + loadAdError.getCode());
-				listener.onRewardedVideoFailedToLoad(adId, loadAdError);
+				listener.onRewardedVideoFailedToLoad(RewardedVideo.this.adId, loadAdError);
 			}
 		});
 	}
@@ -78,7 +78,7 @@ public class RewardedVideo {
 		if (rewardedAd != null) {
 			rewardedAd.show(activity, rewardItem -> {
 				Log.i(LOG_TAG, String.format("rewarded video ad reward received! currency: %s amount: %d", rewardItem.getType(), rewardItem.getAmount()));
-				listener.onRewarded(adId, rewardItem);
+				listener.onRewarded(RewardedVideo.this.adId, rewardItem);
 			});
 		}
 	}
@@ -98,35 +98,35 @@ public class RewardedVideo {
 					public void onAdClicked() {
 						super.onAdClicked();
 						Log.i(LOG_TAG, "rewarded video ad clicked");
-						listener.onRewardedClicked(adId);
+						listener.onRewardedClicked(RewardedVideo.this.adId);
 					}
 
 					@Override
 					public void onAdDismissedFullScreenContent() {
 						super.onAdDismissedFullScreenContent();
 						Log.w(LOG_TAG, "rewarded video ad dismissed full screen content");
-						listener.onRewardedVideoClosed(adId);
+						listener.onRewardedVideoClosed(RewardedVideo.this.adId);
 					}
 
 					@Override
 					public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
 						super.onAdFailedToShowFullScreenContent(adError);
 						Log.e(LOG_TAG, "rewarded video ad failed to show full screen content");
-						listener.onRewardedVideoFailedToShow(adId, adError);
+						listener.onRewardedVideoFailedToShow(RewardedVideo.this.adId, adError);
 					}
 
 					@Override
 					public void onAdImpression() {
 						super.onAdImpression();
 						Log.i(LOG_TAG, "rewarded video ad impression");
-						listener.onRewardedAdImpression(adId);
+						listener.onRewardedAdImpression(RewardedVideo.this.adId);
 					}
 
 					@Override
 					public void onAdShowedFullScreenContent() {
 						super.onAdShowedFullScreenContent();
 						Log.i(LOG_TAG, "rewarded video ad showed full screen content");
-						listener.onRewardedVideoOpened(adId);
+						listener.onRewardedVideoOpened(RewardedVideo.this.adId);
 					}
 				});
 			}

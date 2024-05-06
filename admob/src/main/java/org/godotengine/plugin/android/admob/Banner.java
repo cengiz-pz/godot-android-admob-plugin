@@ -26,6 +26,7 @@ import org.godotengine.godot.Dictionary;
 
 interface BannerListener {
 	void onAdLoaded(String adId);
+	void onAdRefreshed(String adId);
 	void onAdFailedToLoad(String adId, LoadAdError loadAdError);
 }
 
@@ -40,8 +41,12 @@ public class Banner {
 	private final Activity activity;
 	private final FrameLayout layout;
 	private final String bannerSize;
+	private boolean isOnTop;
 	private AdView adView; // Banner view
 	private FrameLayout.LayoutParams adParams;
+	private AdListener adListener;
+
+	private boolean firstLoad;
 
 
 	public Banner(final String adId, final String adUnitId, final Dictionary adData, final AdRequest adRequest,
@@ -49,39 +54,52 @@ public class Banner {
 		this.adId = adId;
 		this.adUnitId = adUnitId;
 
-		if (adData.containsKey("banner_size")) {
-			this.bannerSize = (String) adData.get("banner_size");
+		if (adData.containsKey("ad_size")) {
+			this.bannerSize = (String) adData.get("ad_size");
 		}
 		else {
 			this.bannerSize = "ADAPTIVE";
 			Log.e(LOG_TAG, "Error: Banner size is required!");
 		}
 
-		boolean isOnTop = false;
 		if (adData.containsKey("is_on_top")) {
-			isOnTop = (boolean) adData.get("is_on_top");
+			this.isOnTop = (boolean) adData.get("is_on_top");
 		}
 		else {
+			this.isOnTop = false;
 			Log.w(LOG_TAG, "Warning: Ad position not specified.");
 		}
 
 		this.adRequest = adRequest;
 		this.activity = activity;
 		this.layout = layout;
-		this.adView = null;
-		this.adParams = null;
 
-		addBanner((isOnTop ? Gravity.TOP : Gravity.BOTTOM), getAdSize(bannerSize), new AdListener() {
+		firstLoad = true;
+
+		this.adListener = new AdListener() {
 			@Override
 			public void onAdLoaded() {
-				listener.onAdLoaded(adId);
+				if (Banner.this.firstLoad) {
+					Banner.this.firstLoad = false;
+					listener.onAdLoaded(Banner.this.adId);
+				}
+				else {
+					listener.onAdRefreshed(Banner.this.adId);
+				}
 			}
 
 			@Override
 			public void onAdFailedToLoad(@NonNull LoadAdError error) {
-				listener.onAdFailedToLoad(adId, error);
+				listener.onAdFailedToLoad(Banner.this.adId, error);
 			}
-		});
+		};
+
+		this.adView = null;
+		this.adParams = null;
+	}
+
+	public void load() {
+		addBanner((isOnTop ? Gravity.TOP : Gravity.BOTTOM), getAdSize(bannerSize));
 	}
 
 	public void show() {
@@ -95,6 +113,9 @@ public class Banner {
 			Log.d(LOG_TAG, String.format("show(): %s", this.adId));
 			adView.setVisibility(View.VISIBLE);
 			adView.resume();
+
+			// Add to layout and load ad
+			layout.addView(adView, adParams);
 		}
 	}
 
@@ -107,8 +128,10 @@ public class Banner {
 
 			layout.removeView(adView); // Remove the old view
 
-			AdListener adListener = adView.getAdListener();
-			addBanner((isOnTop ? Gravity.TOP : Gravity.BOTTOM), adView.getAdSize(), adListener);
+			addBanner((isOnTop ? Gravity.TOP : Gravity.BOTTOM), adView.getAdSize());
+
+			// Add to layout and load ad
+			layout.addView(adView, adParams);
 		}
 	}
 
@@ -121,12 +144,14 @@ public class Banner {
 
 			layout.removeView(adView); // Remove the old view
 
-			AdListener adListener = adView.getAdListener();
-			addBanner(adParams.gravity, getAdSize(bannerSize), adListener);
+			addBanner(adParams.gravity, getAdSize(bannerSize));
+
+			// Add to layout and load ad
+			layout.addView(adView, adParams);
 		}
 	}
 
-	private void addBanner(final int gravity, final AdSize size, final AdListener listener) {
+	private void addBanner(final int gravity, final AdSize size) {
 		adParams = new FrameLayout.LayoutParams(
 				FrameLayout.LayoutParams.MATCH_PARENT,
 				FrameLayout.LayoutParams.WRAP_CONTENT
@@ -138,10 +163,9 @@ public class Banner {
 		adView.setAdUnitId(adUnitId);
 		adView.setBackgroundColor(Color.TRANSPARENT);
 		adView.setAdSize(size);
-		adView.setAdListener(listener);
-
-		// Add to layout and load ad
-		layout.addView(adView, adParams);
+		adView.setAdListener(adListener);
+		adView.setVisibility(View.GONE);
+		adView.pause();
 
 		// Request
 		adView.loadAd(adRequest);
@@ -160,6 +184,7 @@ public class Banner {
 		if (adView.getVisibility() != View.GONE) {
 			adView.setVisibility(View.GONE);
 			adView.pause();
+			layout.removeView(adView);
 		}
 		else {
 			Log.e(LOG_TAG, "Error: can't hide banner ad. Ad is not visible.");
@@ -194,20 +219,29 @@ public class Banner {
 	}
 
 	private AdSize getAdSize(final String bannerSize) {
+		AdSize result;
+		Log.d(LOG_TAG, String.format("getAdSize(): for value '%s'.", bannerSize));
 		switch (bannerSize) {
 			case "BANNER":
-				return AdSize.BANNER;
+				result = AdSize.BANNER;
+				break;
 			case "LARGE_BANNER":
-				return AdSize.LARGE_BANNER;
+				result = AdSize.LARGE_BANNER;
+				break;
 			case "MEDIUM_RECTANGLE":
-				return AdSize.MEDIUM_RECTANGLE;
+				result = AdSize.MEDIUM_RECTANGLE;
+				break;
 			case "FULL_BANNER":
-				return AdSize.FULL_BANNER;
+				result = AdSize.FULL_BANNER;
+				break;
 			case "LEADERBOARD":
-				return AdSize.LEADERBOARD;
+				result = AdSize.LEADERBOARD;
+				break;
 			default:
-				return getAdaptiveAdSize();
+				result = getAdaptiveAdSize();
 		}
+		Log.d(LOG_TAG, String.format("getAdSize(): ad size [width: %d; height: %d].", result.getWidth(), result.getHeight()));
+		return result;
 	}
 
 	public int getWidth() {

@@ -60,7 +60,7 @@ public class RewardedInterstitial {
 				super.onAdLoaded(rewardedAd);
 				setAd(rewardedAd);
 				Log.i(LOG_TAG, "rewarded interstitial ad loaded");
-				listener.onRewardedInterstitialLoaded(adId);
+				listener.onRewardedInterstitialLoaded(RewardedInterstitial.this.adId);
 			}
 
 			@Override
@@ -69,7 +69,7 @@ public class RewardedInterstitial {
 				
 				setAd(null); // safety
 				Log.e(LOG_TAG, "rewarded interstitial ad failed to load. errorCode: " + loadAdError.getCode());
-				listener.onRewardedInterstitialFailedToLoad(adId, loadAdError);
+				listener.onRewardedInterstitialFailedToLoad(RewardedInterstitial.this.adId, loadAdError);
 			}
 		});
 	}
@@ -78,7 +78,7 @@ public class RewardedInterstitial {
 		if (rewardedAd != null) {
 			rewardedAd.show(activity, rewardItem -> {
 				Log.i(LOG_TAG, String.format("rewarded interstitial ad rewarded! currency: %s amount: %d", rewardItem.getType(), rewardItem.getAmount()));
-				listener.onRewarded(adId, rewardItem);
+				listener.onRewarded(RewardedInterstitial.this.adId, rewardItem);
 			});
 		}
 	}
@@ -98,35 +98,35 @@ public class RewardedInterstitial {
 					public void onAdClicked() {
 						super.onAdClicked();
 						Log.i(LOG_TAG, "rewarded interstitial ad clicked");
-						listener.onRewardedClicked(adId);
+						listener.onRewardedClicked(RewardedInterstitial.this.adId);
 					}
 
 					@Override
 					public void onAdDismissedFullScreenContent() {
 						super.onAdDismissedFullScreenContent();
 						Log.w(LOG_TAG, "rewarded interstitial ad dismissed full screen content");
-						listener.onRewardedInterstitialClosed(adId);
+						listener.onRewardedInterstitialClosed(RewardedInterstitial.this.adId);
 					}
 
 					@Override
 					public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
 						super.onAdFailedToShowFullScreenContent(adError);
 						Log.e(LOG_TAG, "rewarded interstitial ad failed to show full screen content");
-						listener.onRewardedInterstitialFailedToShow(adId, adError);
+						listener.onRewardedInterstitialFailedToShow(RewardedInterstitial.this.adId, adError);
 					}
 
 					@Override
 					public void onAdImpression() {
 						super.onAdImpression();
 						Log.i(LOG_TAG, "rewarded interstitial ad impression");
-						listener.onRewardedAdImpression(adId);
+						listener.onRewardedAdImpression(RewardedInterstitial.this.adId);
 					}
 
 					@Override
 					public void onAdShowedFullScreenContent() {
 						super.onAdShowedFullScreenContent();
 						Log.i(LOG_TAG, "rewarded interstitial ad showed full screen content");
-						listener.onRewardedInterstitialOpened(adId);
+						listener.onRewardedInterstitialOpened(RewardedInterstitial.this.adId);
 					}
 				});
 			}

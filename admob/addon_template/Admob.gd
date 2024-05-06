@@ -9,6 +9,7 @@ extends Node
 signal initialization_completed(status_data: InitializationStatus)
 signal banner_ad_loaded(ad_id: String)
 signal banner_ad_failed_to_load(ad_id: String, error_data: LoadAdError)
+signal banner_ad_refreshed(ad_id: String)
 signal banner_ad_clicked(ad_id: String)
 signal banner_ad_impression(ad_id: String)
 signal banner_ad_opened(ad_id: String)
@@ -120,6 +121,7 @@ func _connect_signals() -> void:
 	_plugin_singleton.connect("initialization_completed", _on_initialization_completed)
 	_plugin_singleton.connect("banner_ad_loaded", _on_banner_ad_loaded)
 	_plugin_singleton.connect("banner_ad_failed_to_load", _on_banner_ad_failed_to_load)
+	_plugin_singleton.connect("banner_ad_refreshed", _on_banner_ad_refreshed)
 	_plugin_singleton.connect("banner_ad_clicked", _on_banner_ad_clicked)
 	_plugin_singleton.connect("banner_ad_impression", _on_banner_ad_impression)
 	_plugin_singleton.connect("banner_ad_opened", _on_banner_ad_opened)
@@ -268,7 +270,7 @@ func hide_banner_ad(a_ad_id: String) -> void:
 		if _active_banner_ads.has(a_ad_id):
 			_plugin_singleton.hide_banner_ad(a_ad_id)
 		else:
-			printerr("Cannot hide banner. Ad with UID '%s' not found." % a_ad_id)
+			printerr("Cannot hide banner. Ad with ID '%s' not found." % a_ad_id)
 
 
 func remove_banner_ad(a_ad_id: String) -> void:
@@ -279,7 +281,7 @@ func remove_banner_ad(a_ad_id: String) -> void:
 			_active_banner_ads.erase(a_ad_id)
 			_plugin_singleton.remove_banner_ad(a_ad_id)
 		else:
-			printerr("Cannot remove banner ad. Ad with UID '%s' not found." % a_ad_id)
+			printerr("Cannot remove banner ad. Ad with ID '%s' not found." % a_ad_id)
 
 
 func move_banner_ad(a_ad_id: String, a_on_top: bool) -> void:
@@ -304,9 +306,9 @@ func get_banner_dimension(a_ad_id: String = "") -> Vector2:
 			if _active_banner_ads.is_empty():
 				printerr("Cannot get banner ad dimensions. No banner ads loaded.")
 			else:
-				var last_loaded_banner_ad_uid = _active_banner_ads[0]
-				return Vector2(_plugin_singleton.get_banner_width(last_loaded_banner_ad_uid),
-							_plugin_singleton.get_banner_height(last_loaded_banner_ad_uid))
+				var last_loaded_banner_ad_id = _active_banner_ads[0]
+				return Vector2(_plugin_singleton.get_banner_width(last_loaded_banner_ad_id),
+							_plugin_singleton.get_banner_height(last_loaded_banner_ad_id))
 
 	return Vector2.ZERO
 
@@ -319,9 +321,9 @@ func get_banner_dimension_in_pixels(a_ad_id: String = "") -> Vector2:
 			if _active_banner_ads.is_empty():
 				printerr("Cannot get banner ad dimensions. No banner ads loaded.")
 			else:
-				var last_loaded_banner_ad_uid = _active_banner_ads[0]
-				return Vector2(_plugin_singleton.get_banner_width_in_pixels(last_loaded_banner_ad_uid),
-							_plugin_singleton.get_banner_height_in_pixels(last_loaded_banner_ad_uid))
+				var last_loaded_banner_ad_id = _active_banner_ads[0]
+				return Vector2(_plugin_singleton.get_banner_width_in_pixels(last_loaded_banner_ad_id),
+							_plugin_singleton.get_banner_height_in_pixels(last_loaded_banner_ad_id))
 
 	return Vector2.ZERO
 
@@ -366,7 +368,7 @@ func remove_interstitial_ad(a_ad_id: String) -> void:
 			_active_interstitial_ads.erase(a_ad_id)
 			_plugin_singleton.remove_interstitial_ad(a_ad_id)
 		else:
-			printerr("Cannot remove interstitial ad. Ad with UID '%s' not found." % a_ad_id)
+			printerr("Cannot remove interstitial ad. Ad with ID '%s' not found." % a_ad_id)
 
 
 func load_rewarded_ad() -> void:
@@ -409,7 +411,7 @@ func remove_rewarded_ad(a_ad_id: String) -> void:
 			_active_rewarded_ads.erase(a_ad_id)
 			_plugin_singleton.remove_rewarded_ad(a_ad_id)
 		else:
-			printerr("Cannot remove rewarded ad. Ad with UID '%s' not found." % a_ad_id)
+			printerr("Cannot remove rewarded ad. Ad with ID '%s' not found." % a_ad_id)
 
 
 func load_rewarded_interstitial_ad() -> void:
@@ -452,7 +454,7 @@ func remove_rewarded_interstitial_ad(a_ad_id: String) -> void:
 			_active_rewarded_interstitial_ads.erase(a_ad_id)
 			_plugin_singleton.remove_rewarded_interstitial_ad(a_ad_id)
 		else:
-			printerr("Cannot remove rewarded interstitial ad. Ad with UID '%s' not found." % a_ad_id)
+			printerr("Cannot remove rewarded interstitial ad. Ad with ID '%s' not found." % a_ad_id)
 
 
 func load_consent_form() -> void:
@@ -516,6 +518,10 @@ func _on_banner_ad_loaded(a_ad_id: String) -> void:
 
 func _on_banner_ad_failed_to_load(a_ad_id: String, error_data: Dictionary) -> void:
 	banner_ad_failed_to_load.emit(a_ad_id, LoadAdError.new(error_data))
+
+
+func _on_banner_ad_refreshed(a_ad_id: String) -> void:
+	banner_ad_refreshed.emit(a_ad_id)
 
 
 func _on_banner_ad_impression(a_ad_id: String) -> void:

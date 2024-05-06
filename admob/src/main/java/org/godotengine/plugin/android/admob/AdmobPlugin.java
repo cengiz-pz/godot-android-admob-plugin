@@ -62,6 +62,7 @@ public class AdmobPlugin extends GodotPlugin {
 	private static final String SIGNAL_INITIALIZATION_COMPLETED = "initialization_completed";
 	private static final String SIGNAL_BANNER_AD_LOADED = "banner_ad_loaded";
 	private static final String SIGNAL_BANNER_AD_FAILED_TO_LOAD = "banner_ad_failed_to_load";
+	private static final String SIGNAL_BANNER_AD_REFRESHED = "banner_ad_refreshed";
 	private static final String SIGNAL_BANNER_AD_IMPRESSION = "banner_ad_impression";
 	private static final String SIGNAL_BANNER_AD_CLICKED = "banner_ad_clicked";
 	private static final String SIGNAL_BANNER_AD_OPENED = "banner_ad_opened";
@@ -155,6 +156,7 @@ public class AdmobPlugin extends GodotPlugin {
 
 		signals.add(new SignalInfo(SIGNAL_BANNER_AD_LOADED, String.class));
 		signals.add(new SignalInfo(SIGNAL_BANNER_AD_FAILED_TO_LOAD, String.class, Dictionary.class));
+		signals.add(new SignalInfo(SIGNAL_BANNER_AD_REFRESHED, String.class));
 		signals.add(new SignalInfo(SIGNAL_BANNER_AD_IMPRESSION, String.class));
 		signals.add(new SignalInfo(SIGNAL_BANNER_AD_CLICKED, String.class));
 		signals.add(new SignalInfo(SIGNAL_BANNER_AD_OPENED, String.class));
@@ -268,20 +270,27 @@ public class AdmobPlugin extends GodotPlugin {
 			if (adData.containsKey("ad_unit_id")) {
 				String adUnitId = (String) adData.get("ad_unit_id");
 				String adId = String.format("%s-%d", adUnitId, ++bannerAdIdSequence);
+				Banner banner = new Banner(adId, adUnitId, adData, createAdRequest(adData), activity, layout,
+						new BannerListener() {
+							@Override
+							public void onAdLoaded(String adId) {
+								emitSignal(SIGNAL_BANNER_AD_LOADED, adId);
+							}
 
+							@Override
+							public void onAdRefreshed(String adId) {
+								Log.d(LOG_TAG, String.format("onAdRefreshed(%s) banner", adId));
+								emitSignal(SIGNAL_BANNER_AD_REFRESHED, adId);
+							}
+
+							@Override
+							public void onAdFailedToLoad(String adId, LoadAdError adError) {
+								emitSignal(SIGNAL_BANNER_AD_FAILED_TO_LOAD, adId, convert(adError));
+							}
+						});
+				bannerAds.put(adId, banner);
 				activity.runOnUiThread(() -> {
-					bannerAds.put(adId, new Banner(adId, adUnitId, adData, createAdRequest(adData), activity, layout,
-							new BannerListener() {
-								@Override
-								public void onAdLoaded(String adId) {
-									emitSignal(SIGNAL_BANNER_AD_LOADED, adId);
-								}
-
-								@Override
-								public void onAdFailedToLoad(String adId, LoadAdError adError) {
-									emitSignal(SIGNAL_BANNER_AD_FAILED_TO_LOAD, adId, convert(adError));
-								}
-							}));
+					banner.load();
 				});
 			} else {
 				Log.e(LOG_TAG, "load_banner_ad(): Error: Ad unit id is required!");

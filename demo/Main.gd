@@ -68,56 +68,56 @@ func _on_rewarded_interstitial_button_pressed() -> void:
 		admob.load_rewarded_interstitial_ad()
 
 
-func _on_admob_banner_ad_loaded(ad_id) -> void:
+func _on_admob_banner_ad_loaded(ad_id: String) -> void:
 	_is_banner_loaded = true
 	banner_button.disabled = false
-	_print_to_screen("banner loaded")
+	_print_to_screen("banner loaded: %s" % ad_id)
 
 
-func _on_admob_banner_ad_failed_to_load(ad_id, error_data: LoadAdError) -> void:
+func _on_admob_banner_ad_failed_to_load(ad_id: String, error_data: LoadAdError) -> void:
 	_print_to_screen("banner failed to load. error: %d, message: %s" %
 				[error_data.get_code(), error_data.get_message()], true)
 
 
-func _on_admob_interstitial_ad_loaded(ad_id) -> void:
+func _on_admob_interstitial_ad_loaded(ad_id: String) -> void:
 	_is_interstitial_loaded = true
 	interstitial_button.disabled = false
 	_print_to_screen("interstitial loaded")
 
 
-func _on_admob_interstitial_ad_failed_to_load(ad_id, error_data: LoadAdError) -> void:
+func _on_admob_interstitial_ad_failed_to_load(ad_id: String, error_data: LoadAdError) -> void:
 	_print_to_screen("interstitial failed to load. error: %d, message: %s" %
 				[error_data.get_code(), error_data.get_message()], true)
 
 
-func _on_admob_rewarded_ad_loaded(ad_id) -> void:
+func _on_admob_rewarded_ad_loaded(ad_id: String) -> void:
 	_is_rewarded_video_loaded = true
 	rewarded_button.disabled = false
 	_print_to_screen("rewarded video loaded")
 
 
-func _on_admob_rewarded_ad_failed_to_load(ad_id, error_data: LoadAdError) -> void:
+func _on_admob_rewarded_ad_failed_to_load(ad_id: String, error_data: LoadAdError) -> void:
 	_print_to_screen("rewarded video failed to load. error: %d, message: %s" %
 				[error_data.get_code(), error_data.get_message()], true)
 
 
-func _on_admob_rewarded_ad_user_earned_reward(ad_id, reward_data: RewardItem) -> void:
+func _on_admob_rewarded_ad_user_earned_reward(ad_id: String, reward_data: RewardItem) -> void:
 	_print_to_screen("user rewarded for rewarded ad '%s' with %d %s" %
 				[ad_id, reward_data.get_amount(), reward_data.get_type()])
 
 
-func _on_admob_rewarded_interstitial_ad_loaded(ad_id) -> void:
+func _on_admob_rewarded_interstitial_ad_loaded(ad_id: String) -> void:
 	_is_rewarded_interstitial_loaded = true
 	rewarded_interstitial_button.disabled = false
 	_print_to_screen("rewarded interstitial loaded")
 
 
-func _on_admob_rewarded_interstitial_ad_failed_to_load(ad_id, error_data: LoadAdError) -> void:
+func _on_admob_rewarded_interstitial_ad_failed_to_load(ad_id: String, error_data: LoadAdError) -> void:
 	_print_to_screen("rewarded interstitial failed to load. error: %d, message: %s" %
 				[error_data.get_code(), error_data.get_message()], true)
 
 
-func _on_admob_rewarded_interstitial_ad_user_earned_reward(ad_id, reward_data: RewardItem) -> void:
+func _on_admob_rewarded_interstitial_ad_user_earned_reward(ad_id: String, reward_data: RewardItem) -> void:
 	_print_to_screen("user rewarded for rewarded interstitial ad '%s' with %d %s" %
 				[ad_id, reward_data.get_amount(), reward_data.get_type()])
 
