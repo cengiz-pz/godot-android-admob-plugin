@@ -3,7 +3,7 @@
 #
 
 class_name FormError
-extends Object
+extends RefCounted
 
 const CODE_PROPERTY: String = "code"
 const MESSAGE_PROPERTY: String = "message"

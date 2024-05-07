@@ -3,7 +3,7 @@
 #
 
 class_name RewardItem
-extends Object
+extends RefCounted
 
 const AMOUNT_PROPERTY: String = "amount"
 const TYPE_PROPERTY: String = "type"

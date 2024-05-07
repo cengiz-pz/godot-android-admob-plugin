@@ -3,7 +3,7 @@
 #
 
 class_name AdmobConfig
-extends Object
+extends RefCounted
 
 enum ContentRating {
 	G,

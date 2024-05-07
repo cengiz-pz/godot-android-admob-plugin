@@ -3,7 +3,7 @@
 #
 
 class_name AdError
-extends Object
+extends RefCounted
 
 const CODE_PROPERTY: String = "code"
 const DOMAIN_PROPERTY: String = "domain"

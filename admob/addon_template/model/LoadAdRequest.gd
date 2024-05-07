@@ -3,7 +3,7 @@
 #
 
 class_name LoadAdRequest
-extends Object
+extends RefCounted
 
 enum AdPosition {
 	TOP,

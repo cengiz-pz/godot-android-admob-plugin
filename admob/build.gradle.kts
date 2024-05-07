@@ -107,7 +107,7 @@ tasks.register<Zip>("packageDistribution") {
     destinationDirectory.set(layout.buildDirectory.dir("dist"))
 
     from("../demo/addons/${pluginName}") {
-        into("addons/${pluginName}")
+        into("${pluginName}-root/addons/${pluginName}")
     }
 }
 

@@ -3,7 +3,7 @@
 #
 
 class_name AdapterStatus
-extends Object
+extends RefCounted
 
 const LATENCY_PROPERTY: String = "latency"
 const INITIALIZATION_STATE_PROPERTY: String = "initializationState"

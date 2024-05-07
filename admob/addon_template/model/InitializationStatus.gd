@@ -3,7 +3,7 @@
 #
 
 class_name InitializationStatus
-extends Object
+extends RefCounted
 
 var _data: Dictionary
 
