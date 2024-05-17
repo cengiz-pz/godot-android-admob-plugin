@@ -11,6 +11,13 @@ const PLUGIN_NAME: String = "@pluginName@"
 const PLUGIN_VERSION: String = "@pluginVersion@"
 const PLUGIN_DEPENDENCIES: Array = [ @pluginDependencies@ ]
 
+const APP_ID_META_TAG = """
+<meta-data
+		tools:replace="android:value"
+		android:name="com.google.android.gms.ads.APPLICATION_ID"
+		android:value="%s"/>
+"""
+
 var export_plugin: AndroidExportPlugin
 
 
@@ -52,16 +59,9 @@ class AndroidExportPlugin extends EditorExportPlugin:
 
 
 	func _get_android_manifest_application_element_contents(platform: EditorExportPlatform, debug: bool) -> String:
-		var __contents: String = ""
-
 		var __admob_node: Admob = _get_admob_node(EditorInterface.get_edited_scene_root())
 
-		__contents += "<meta-data\n"
-		__contents += "\ttools:replace=\"android:value\"\n"
-		__contents += "\tandroid:name=\"com.google.android.gms.ads.APPLICATION_ID\"\n"
-		__contents += "\tandroid:value=\"%s\"/>\n" % (__admob_node.real_application_id if __admob_node.is_real else __admob_node.debug_application_id)
-
-		return __contents
+		return APP_ID_META_TAG % (__admob_node.real_application_id if __admob_node.is_real else __admob_node.debug_application_id)
 
 
 	func _get_admob_node(a_node: Node) -> Admob:

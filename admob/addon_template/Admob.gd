@@ -233,8 +233,8 @@ func load_banner_ad() -> void:
 	if _plugin_singleton != null:
 		_plugin_singleton.load_banner_ad(LoadAdRequest.new()
 					.set_ad_unit_id(_banner_id)
-					.set_is_on_top(banner_position == LoadAdRequest.AdPosition.TOP)
-					.set_ad_size(LoadAdRequest.AdSize.keys()[banner_size])
+					.set_ad_position(banner_position)
+					.set_ad_size(banner_size)
 					.set_request_agent(request_agent)
 					.get_raw_data())
 	else:
@@ -284,9 +284,9 @@ func remove_banner_ad(a_ad_id: String) -> void:
 			printerr("Cannot remove banner ad. Ad with ID '%s' not found." % a_ad_id)
 
 
-func move_banner_ad(a_ad_id: String, a_on_top: bool) -> void:
+func move_banner_ad(a_ad_id: String, a_position: LoadAdRequest.AdPosition) -> void:
 	if _plugin_singleton != null:
-		_plugin_singleton.move_banner_ad(a_ad_id, a_on_top)
+		_plugin_singleton.move_banner_ad(a_ad_id, LoadAdRequest.AdPosition.keys()[a_position])
 	else:
 		printerr("%s plugin not initialized" % PLUGIN_SINGLETON_NAME)
 

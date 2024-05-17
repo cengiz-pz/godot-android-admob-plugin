@@ -29,7 +29,7 @@ enum AdSize {
 const DATA_KEY_AD_UNIT_ID = "ad_unit_id"
 const DATA_KEY_REQUEST_AGENT = "request_agent"
 const DATA_KEY_AD_SIZE = "ad_size"
-const DATA_KEY_IS_ON_TOP = "is_on_top"
+const DATA_KEY_AD_POSITION = "ad_position"
 const DATA_KEY_KEYWORDS = "keywords"
 const DATA_KEY_USER_ID = "user_id"
 const DATA_KEY_CUSTOM_DATA = "custom_data"
@@ -51,13 +51,13 @@ func set_request_agent(a_value: String) -> LoadAdRequest:
 	return self
 
 
-func set_ad_size(a_value: String) -> LoadAdRequest:
-	_data[DATA_KEY_AD_SIZE] = a_value
+func set_ad_size(a_value: AdSize) -> LoadAdRequest:
+	_data[DATA_KEY_AD_SIZE] = AdSize.keys()[a_value]
 	return self
 
 
-func set_is_on_top(a_value: bool) -> LoadAdRequest:
-	_data[DATA_KEY_IS_ON_TOP] = a_value
+func set_ad_position(a_value: AdPosition) -> LoadAdRequest:
+	_data[DATA_KEY_AD_POSITION] = AdPosition.keys()[a_value]
 	return self
 
 

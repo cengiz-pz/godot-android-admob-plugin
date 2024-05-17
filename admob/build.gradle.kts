@@ -7,13 +7,13 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android") version "1.6.0"
+    id("org.jetbrains.kotlin.android") version "1.9.23"
 }
 
 val pluginName = "AdmobPlugin"
 val pluginPackageName = "org.godotengine.plugin.android.admob"
 val godotVersion = "4.2.2"
-val pluginVersion = "2.0"
+val pluginVersion = "2.1"
 val demoAddOnsDirectory = "../demo/addons"
 val templateDirectory = "addon_template"
 val pluginDependencies = arrayOf(

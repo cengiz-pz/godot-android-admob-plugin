@@ -38,7 +38,7 @@ public class Interstitial {
 
 	private InterstitialAd interstitialAd = null;
 
-	public Interstitial(final String adId, final String adUnitId, final AdRequest adRequest, final Activity activity,
+	Interstitial(final String adId, final String adUnitId, final AdRequest adRequest, final Activity activity,
 				final InterstitialListener listener) {
 		this.adId = adId;
 		this.adUnitId = adUnitId;
@@ -47,7 +47,7 @@ public class Interstitial {
 		this.listener = listener;
 	}
 
-	public void show() {
+	void show() {
 		if (interstitialAd != null) {
 			interstitialAd.show(activity);
 		}

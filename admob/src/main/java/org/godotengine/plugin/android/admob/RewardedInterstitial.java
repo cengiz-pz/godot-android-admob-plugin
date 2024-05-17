@@ -42,7 +42,7 @@ public class RewardedInterstitial {
 	private RewardedInterstitialAd rewardedAd;
 	private ServerSideVerificationOptions serverSideVerificationOptions;
 
-	public RewardedInterstitial(final String adId, final String adUnitId, final AdRequest adRequest, Activity activity,
+	RewardedInterstitial(final String adId, final String adUnitId, final AdRequest adRequest, Activity activity,
 				final RewardedInterstitialListener listener) {
 		this.adId = adId;
 		this.adUnitId = adUnitId;
@@ -53,7 +53,7 @@ public class RewardedInterstitial {
 		this.serverSideVerificationOptions = null;
 	}
 
-	public void load() {
+	void load() {
 		RewardedInterstitialAd.load(activity, adUnitId, adRequest, new RewardedInterstitialAdLoadCallback() {
 			@Override
 			public void onAdLoaded(@NonNull RewardedInterstitialAd rewardedAd) {
@@ -74,7 +74,7 @@ public class RewardedInterstitial {
 		});
 	}
 
-	public void show() {
+	void show() {
 		if (rewardedAd != null) {
 			rewardedAd.show(activity, rewardItem -> {
 				Log.i(LOG_TAG, String.format("rewarded interstitial ad rewarded! currency: %s amount: %d", rewardItem.getType(), rewardItem.getAmount()));
@@ -139,7 +139,7 @@ public class RewardedInterstitial {
 		}
 	}
 
-	public void setServerSideVerificationOptions(ServerSideVerificationOptions ssvo) {
+	void setServerSideVerificationOptions(ServerSideVerificationOptions ssvo) {
 		this.serverSideVerificationOptions = ssvo;
 
 		if (rewardedAd == null) {

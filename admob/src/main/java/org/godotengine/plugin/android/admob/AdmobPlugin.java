@@ -238,28 +238,28 @@ public class AdmobPlugin extends GodotPlugin {
 	@UsedByGodot
 	public Dictionary get_current_adaptive_banner_size(int width) {
 		Log.d(LOG_TAG, "get_current_adaptive_banner_size()");
-		int currentWidth = (width == AdSize.FULL_WIDTH) ? getAdWidth() : width;
+		int currentWidth = (width == AdSize.FULL_WIDTH) ? Banner.getAdWidth(activity) : width;
 		return convert(AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, currentWidth));
 	}
 
 	@UsedByGodot
 	public Dictionary get_portrait_adaptive_banner_size(int width) {
 		Log.d(LOG_TAG, "get_portrait_adaptive_banner_size()");
-		int currentWidth = (width == AdSize.FULL_WIDTH) ? getAdWidth() : width;
+		int currentWidth = (width == AdSize.FULL_WIDTH) ? Banner.getAdWidth(activity) : width;
 		return convert(AdSize.getPortraitAnchoredAdaptiveBannerAdSize(activity, currentWidth));
 	}
 
 	@UsedByGodot
 	public Dictionary get_landscape_adaptive_banner_size(int width) {
 		Log.d(LOG_TAG, "get_landscape_adaptive_banner_size()");
-		int currentWidth = (width == AdSize.FULL_WIDTH) ? getAdWidth() : width;
+		int currentWidth = (width == AdSize.FULL_WIDTH) ? Banner.getAdWidth(activity) : width;
 		return convert(AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(activity, currentWidth));
 	}
 
 	@UsedByGodot
 	public Dictionary get_smart_banner_size() {
 		Log.d(LOG_TAG, "get_smart_banner_size()");
-		return convert(AdSize.SMART_BANNER);
+		return convert(AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, Banner.getAdWidth(activity)));
 	}
 
 	@UsedByGodot
@@ -330,12 +330,12 @@ public class AdmobPlugin extends GodotPlugin {
 	}
 
 	@UsedByGodot
-	public void move_banner_ad(String adId, boolean isOnTop) {
+	public void move_banner_ad(String adId, String adPosition) {
 		activity.runOnUiThread(() -> {
 			if (bannerAds.containsKey(adId)) {
 				Log.d(LOG_TAG, String.format("move_banner_ad(): %s", adId));
 				Banner bannerAd = bannerAds.get(adId);
-				bannerAd.move(isOnTop);
+				bannerAd.move(adPosition);
 			}
 			else {
 				Log.e(LOG_TAG, String.format("move_banner_ad(): Error: banner ad %s not found", adId));
@@ -743,13 +743,13 @@ public class AdmobPlugin extends GodotPlugin {
 	@UsedByGodot
 	public void update_consent_info(Dictionary consentRequestParameters) {
 		Log.d(LOG_TAG, "update_consent_info()");
-        ConsentInformation consentInformation = UserMessagingPlatform.getConsentInformation(activity);
+		ConsentInformation consentInformation = UserMessagingPlatform.getConsentInformation(activity);
 
-        consentInformation.requestConsentInfoUpdate(
-            activity,
-            createConsentRequestParameters(consentRequestParameters),
+		consentInformation.requestConsentInfoUpdate(
+			activity,
+			createConsentRequestParameters(consentRequestParameters),
 			(ConsentInformation.OnConsentInfoUpdateSuccessListener) () -> {
-                emitSignal(SIGNAL_CONSENT_INFO_UPDATED);
+				emitSignal(SIGNAL_CONSENT_INFO_UPDATED);
 			},
 			(ConsentInformation.OnConsentInfoUpdateFailureListener) requestConsentError -> {
 				emitSignal(SIGNAL_CONSENT_INFO_UPDATE_FAILED, convert(requestConsentError));
@@ -932,20 +932,12 @@ public class AdmobPlugin extends GodotPlugin {
 	}
 
 	private RequestConfiguration.PublisherPrivacyPersonalizationState getPublisherPrivacyPersonalizationState(int intValue) {
-        return switch (intValue) {
-            case 1 -> RequestConfiguration.PublisherPrivacyPersonalizationState.ENABLED;
-            case 2 -> RequestConfiguration.PublisherPrivacyPersonalizationState.DISABLED;
-            default -> RequestConfiguration.PublisherPrivacyPersonalizationState.DEFAULT;
-        };
+		return switch (intValue) {
+			case 1 -> RequestConfiguration.PublisherPrivacyPersonalizationState.ENABLED;
+			case 2 -> RequestConfiguration.PublisherPrivacyPersonalizationState.DISABLED;
+			default -> RequestConfiguration.PublisherPrivacyPersonalizationState.DEFAULT;
+		};
 	}
-
-    private int getAdWidth() {
-        Display display = activity.getWindowManager().getDefaultDisplay();
-        DisplayMetrics outMetrics = new DisplayMetrics();
-        display.getMetrics(outMetrics);
-
-        return Math.round((float) outMetrics.widthPixels / outMetrics.density);
-    }
 
 	/**
 	 * Generate MD5 for the deviceID
