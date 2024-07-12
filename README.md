@@ -129,6 +129,8 @@ Godot Engine v4.?.stable.official (c) 2007-present Juan Linietsky, Ariel Manzur 
   ...
 ```
 
+then reimport the `res://addons/[?]Plugin/icon.png` file from Godot Editor's context menu.
+
 ### ADB logcat
 `adb logcat` is one of the best tools for troubleshooting unexpected behavior
 - use `$> adb logcat | grep 'godot'` on Linux
