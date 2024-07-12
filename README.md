@@ -113,6 +113,23 @@ Steps:
 	- _Admob node will be searched in the scene that is currently open in the Godot Editor_
 
 ## ![](admob/addon_template/icon.png?raw=true) Troubleshooting
+
+### Missing APP ID
+If your game crashes due to missing APP ID, then make sure that you enter your Admob APP ID in the Admob node and pay attention to the [Android Export section](#android-export).
+
+### Plugin icon
+If you're getting the following error or any error related to the plugin's `icon.png` file:
+
+```
+Godot Engine v4.?.stable.official (c) 2007-present Juan Linietsky, Ariel Manzur & Godot Contributors.
+--- Debug adapter server started ---
+--- GDScript language server started on port ? ---
+  res://addons/[?]Plugin/[?]ExportPlugin.gd:21 - Parse Error: Preload file "res://addons/[?]Plugin/icon.png" has no resource loaders (unrecognized file extension).
+  res://addons/[?]Plugin/[?]ExportPlugin.gd:70 - Parse Error: Could not find type "[?]" in the current scope.
+  ...
+```
+
+### ADB logcat
 `adb logcat` is one of the best tools for troubleshooting unexpected behavior
 - use `$> adb logcat | grep 'godot'` on Linux
 	- `adb logcat *:W` to see warnings and errors
@@ -122,6 +139,7 @@ Steps:
 
 Also check out:
 https://docs.godotengine.org/en/stable/tutorials/platform/android/android_plugin.html#troubleshooting
+
 <br/><br/><br/>
 
 ---
