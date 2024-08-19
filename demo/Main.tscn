@@ -65,8 +65,6 @@ scroll_following = true
 
 [node name="Admob" type="Node" parent="."]
 script = ExtResource("2_4x6et")
-banner_position = 4
-banner_size = 5
 debug_application_id = "ca-app-pub-3940256099942544~3347511713"
 debug_banner_id = "ca-app-pub-3940256099942544/6300978111"
 debug_interstitial_id = "ca-app-pub-3940256099942544/1033173712"

@@ -44,7 +44,8 @@ public class Banner {
 		MEDIUM_RECTANGLE,
 		FULL_BANNER,
 		LEADERBOARD,
-		ADAPTIVE
+		SKYSCRAPER,
+		FLUID
 	}
 
 	enum AdPosition {
@@ -230,6 +231,8 @@ public class Banner {
 			case MEDIUM_RECTANGLE -> AdSize.MEDIUM_RECTANGLE;
 			case FULL_BANNER -> AdSize.FULL_BANNER;
 			case LEADERBOARD -> AdSize.LEADERBOARD;
+			case SKYSCRAPER -> AdSize.WIDE_SKYSCRAPER;
+			case FLUID -> AdSize.FLUID;
 			default -> AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, getAdWidth(activity));
 		};
 		Log.d(LOG_TAG, String.format("getAdSize(): ad size [width: %d; height: %d].", result.getWidth(), result.getHeight()));

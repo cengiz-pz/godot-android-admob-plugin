@@ -257,12 +257,6 @@ public class AdmobPlugin extends GodotPlugin {
 	}
 
 	@UsedByGodot
-	public Dictionary get_smart_banner_size() {
-		Log.d(LOG_TAG, "get_smart_banner_size()");
-		return convert(AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, Banner.getAdWidth(activity)));
-	}
-
-	@UsedByGodot
 	public void load_banner_ad(Dictionary adData) {
 		if (isInitialized) {
 			Log.d(LOG_TAG, "load_banner_ad()");
