@@ -89,8 +89,6 @@ lint/tmp/
 .godot/
 *.import
 demo/addons
-!demo/icon.svg.import
-!**/addon_template/icon.png.import
 
 # Mac OS
 .DS_Store
