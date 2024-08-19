@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Main.gd" id="1_wt50o"]
 [ext_resource type="Script" path="res://addons/AdmobPlugin/Admob.gd" id="2_4x6et"]
-[ext_resource type="Texture2D" uid="uid://w8wc50p241ip" path="res://admob.png" id="2_qti4s"]
+[ext_resource type="Texture2D" uid="uid://bdjwuj5g73wl3" path="res://admob.png" id="2_qti4s"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_wt50o")
@@ -21,7 +21,7 @@ layout_mode = 2
 theme_override_constants/separation = 20
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 128)
 layout_mode = 2
 texture = ExtResource("2_qti4s")
 expand_mode = 3
