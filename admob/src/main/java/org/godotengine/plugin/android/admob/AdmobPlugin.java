@@ -14,6 +14,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -792,6 +793,7 @@ public class AdmobPlugin extends GodotPlugin {
 	@Override
 	public View onMainCreate(Activity activity) {
 		this.activity = activity;
+		this.activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 		this.layout = new FrameLayout(activity); // create and add a new layout to Godot
 		return layout;
 	}
