@@ -15,6 +15,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CenterContainer"]
 layout_mode = 2
@@ -58,6 +60,31 @@ layout_mode = 2
 disabled = true
 text = "Show Rewarded Interstitial Ad"
 
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Debug Geography: "
+
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+selected = 1
+item_count = 3
+popup/item_0/text = "DISABLED"
+popup/item_1/text = "EEA"
+popup/item_1/id = 1
+popup/item_2/text = "NOT EEA"
+popup/item_2/id = 2
+
+[node name="UpdateConsentInfoButton" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Update Consent Info"
+
+[node name="ResetConsentButton" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Reset Consent Status"
+
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(280, 300)
 layout_mode = 2
@@ -75,8 +102,15 @@ debug_rewarded_interstitial_id = "ca-app-pub-3940256099942544/5354046379"
 [connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/InterstitialButton" to="." method="_on_interstitial_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/RewardedButton" to="." method="_on_rewarded_video_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/RewardedInterstitialButton" to="." method="_on_rewarded_interstitial_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/UpdateConsentInfoButton" to="." method="_on_update_consent_info_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/ResetConsentButton" to="." method="_on_reset_consent_button_pressed"]
 [connection signal="banner_ad_failed_to_load" from="Admob" to="." method="_on_admob_banner_ad_failed_to_load"]
 [connection signal="banner_ad_loaded" from="Admob" to="." method="_on_admob_banner_ad_loaded"]
+[connection signal="consent_form_dismissed" from="Admob" to="." method="_on_admob_consent_form_dismissed"]
+[connection signal="consent_form_failed_to_load" from="Admob" to="." method="_on_admob_consent_form_failed_to_load"]
+[connection signal="consent_form_loaded" from="Admob" to="." method="_on_admob_consent_form_loaded"]
+[connection signal="consent_info_update_failed" from="Admob" to="." method="_on_admob_consent_info_update_failed"]
+[connection signal="consent_info_updated" from="Admob" to="." method="_on_admob_consent_info_updated"]
 [connection signal="initialization_completed" from="Admob" to="." method="_on_admob_initialization_completed"]
 [connection signal="interstitial_ad_failed_to_load" from="Admob" to="." method="_on_admob_interstitial_ad_failed_to_load"]
 [connection signal="interstitial_ad_loaded" from="Admob" to="." method="_on_admob_interstitial_ad_loaded"]

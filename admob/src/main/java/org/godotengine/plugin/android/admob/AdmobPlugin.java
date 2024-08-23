@@ -697,29 +697,32 @@ public class AdmobPlugin extends GodotPlugin {
 	@UsedByGodot
 	public void load_consent_form() {
 		Log.d(LOG_TAG, "load_consent_form()");
-		UserMessagingPlatform.loadConsentForm(
-			activity,
-			(UserMessagingPlatform.OnConsentFormLoadSuccessListener) loadedForm -> {
-				consentForm = loadedForm;
-				emitSignal(SIGNAL_CONSENT_FORM_LOADED);
-			},
-			(UserMessagingPlatform.OnConsentFormLoadFailureListener) formError -> {
-				emitSignal(SIGNAL_CONSENT_FORM_FAILED_TO_LOAD, convert(formError));
-			}
-		);
+		activity.runOnUiThread(() -> {
+			UserMessagingPlatform.loadConsentForm(
+				activity,
+				(UserMessagingPlatform.OnConsentFormLoadSuccessListener) loadedForm -> {
+					consentForm = loadedForm;
+					emitSignal(SIGNAL_CONSENT_FORM_LOADED);
+				},
+				(UserMessagingPlatform.OnConsentFormLoadFailureListener) formError -> {
+					emitSignal(SIGNAL_CONSENT_FORM_FAILED_TO_LOAD, convert(formError));
+				}
+			);
+		});
 	}
 
 	@UsedByGodot
 	public void show_consent_form() {
-		if (consentForm == null) {
-			Log.e(LOG_TAG, "show_consent_form(): Error: consent form not found!");
-		}
-		else {
-			Log.d(LOG_TAG, "show_consent_form()");
-			consentForm.show(activity, (ConsentForm.OnConsentFormDismissedListener) formError -> {
-				emitSignal(SIGNAL_CONSENT_FORM_DISMISSED, convert(formError));
-			});
-		}
+		activity.runOnUiThread(() -> {
+			if (consentForm == null) {
+				Log.e(LOG_TAG, "show_consent_form(): Error: consent form not found!");
+			} else {
+				Log.d(LOG_TAG, "show_consent_form()");
+				consentForm.show(activity, (ConsentForm.OnConsentFormDismissedListener) formError -> {
+					emitSignal(SIGNAL_CONSENT_FORM_DISMISSED, convert(formError));
+				});
+			}
+		});
 	}
 
 	@UsedByGodot
@@ -735,13 +738,13 @@ public class AdmobPlugin extends GodotPlugin {
 	}
 
 	@UsedByGodot
-	public void update_consent_info(Dictionary consentRequestParameters) {
+	public void update_consent_info(Dictionary consentRequestParameters, String[] deviceIds) {
 		Log.d(LOG_TAG, "update_consent_info()");
 		ConsentInformation consentInformation = UserMessagingPlatform.getConsentInformation(activity);
 
 		consentInformation.requestConsentInfoUpdate(
 			activity,
-			createConsentRequestParameters(consentRequestParameters),
+			createConsentRequestParameters(consentRequestParameters, deviceIds),
 			(ConsentInformation.OnConsentInfoUpdateSuccessListener) () -> {
 				emitSignal(SIGNAL_CONSENT_INFO_UPDATED);
 			},
@@ -898,26 +901,23 @@ public class AdmobPlugin extends GodotPlugin {
 		return builder.build();
 	}
 
-	private ConsentRequestParameters createConsentRequestParameters(Dictionary data) {
+	private ConsentRequestParameters createConsentRequestParameters(Dictionary data, String[] deviceIds) {
 		ConsentRequestParameters.Builder builder = new ConsentRequestParameters.Builder();
 
 		if (data.containsKey("tag_for_under_age_of_consent")) {
 			builder.setTagForUnderAgeOfConsent((boolean) data.get("tag_for_under_age_of_consent"));
 		}
 
-		if (data.containsKey("consent_debug_settings")) {
-			Dictionary debugSettings = (Dictionary) data.get("consent_debug_settings");
-
+		if (data.containsKey("debug_geography") || deviceIds.length > 0) {
 			ConsentDebugSettings.Builder debugSettingsBuilder = new ConsentDebugSettings.Builder(activity);
-			if (debugSettings.containsKey("debug_geography")) {
-				debugSettingsBuilder.setDebugGeography((int) debugSettings.get("debug_geography"));
+			if (data.containsKey("debug_geography")) {
+				debugSettingsBuilder.setDebugGeography((int) data.get("debug_geography"));
 			}
-			
-			if (debugSettings.containsKey("test_device_hashed_ids")) {
-				for (String value : (String[]) debugSettings.get("test_device_hashed_ids")) {
-					debugSettingsBuilder.addTestDeviceHashedId(value);
-				}
+
+			for (String value : deviceIds) {
+				debugSettingsBuilder.addTestDeviceHashedId(value);
 			}
+			debugSettingsBuilder.addTestDeviceHashedId(getAdMobDeviceId());
 
 			builder.setConsentDebugSettings(debugSettingsBuilder.build());
 		}

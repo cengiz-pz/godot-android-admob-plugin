@@ -468,7 +468,7 @@ func show_consent_form() -> void:
 	if _plugin_singleton == null:
 		printerr("%s plugin not initialized" % PLUGIN_SINGLETON_NAME)
 	else:
-		_plugin_singleton.load_consent_form()
+		_plugin_singleton.show_consent_form()
 
 
 func get_consent_status() -> int:
@@ -487,11 +487,11 @@ func is_consent_form_available() -> bool:
 	return false
 
 
-func update_consent_info(consentRequestParameters: Dictionary) -> void:
+func update_consent_info(consentRequestParameters: ConsentRequestParameters) -> void:
 	if _plugin_singleton == null:
 		printerr("%s plugin not initialized" % PLUGIN_SINGLETON_NAME)
 	else:
-		_plugin_singleton.update_consent_info(consentRequestParameters)
+		_plugin_singleton.update_consent_info(consentRequestParameters.get_raw_data(), consentRequestParameters.get_device_ids())
 
 
 func reset_consent_info() -> void:
