@@ -491,7 +491,7 @@ func update_consent_info(consentRequestParameters: Dictionary) -> void:
 	if _plugin_singleton == null:
 		printerr("%s plugin not initialized" % PLUGIN_SINGLETON_NAME)
 	else:
-		_plugin_singleton.update_consent_info()
+		_plugin_singleton.update_consent_info(consentRequestParameters)
 
 
 func reset_consent_info() -> void:
