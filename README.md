@@ -47,6 +47,7 @@ Steps:
 	- Debug IDs will only be used when your Godot app is run in debug mode
 	- Real IDs will only be used when the `is_real` field of the node is set to `true`
 
+### ![](admob/addon_template/icon.png?raw=true) Signals
 - register listeners for one or more of the following signals of the `Admob` node:
 	- `initialization_completed(status_data: InitializationStatus)`
 	- `banner_ad_loaded(ad_id: String)`
@@ -58,6 +59,7 @@ Steps:
 	- `banner_ad_closed(ad_id: String)`
 	- `interstitial_ad_loaded(ad_id: String)`
 	- `interstitial_ad_failed_to_load(ad_id: String, error_data: LoadAdError)`
+	- `interstitial_ad_refreshed(ad_id: String)`
 	- `interstitial_ad_impression(ad_id: String)`
 	- `interstitial_ad_clicked(ad_id: String)`
 	- `interstitial_ad_showed_full_screen_content(ad_id: String)`
@@ -84,6 +86,8 @@ Steps:
 	- `consent_form_failed_to_load(error_data: FormError)`
 	- `consent_info_updated`
 	- `consent_info_update_failed(error_data: FormError)`
+
+### ![](admob/addon_template/icon.png?raw=true) Loading and displaying ads
 - initialize the plugin
 	- call the `initialize()` method of the `Admob` node
 	- wait for the `initialization_completed` signal
@@ -106,6 +110,15 @@ Steps:
 	- `show_interstitial_ad(ad_id: String)`
 	- `show_rewarded_ad(ad_id: String)`
 	- `show_rewarded_interstitial_ad(ad_id: String)`
+
+### ![](admob/addon_template/icon.png?raw=true) User Consent
+- Methods:
+	- `get_consent_status()` - Returns a consent status value defined in `ConsentInformation.gd`
+	- `update_consent_info(params: ConsentRequestParameters)` - To be called if `get_consent_status()` returns status UNKNOWN (0).
+	- `reset_consent_info()` - To be used only when testing and debugging your application.
+	- `is_consent_form_available()`
+	- `load_consent_form()` - To be called if `get_consent_status()` returns status REQUIRED (2) and `is_consent_form_available()` returns `false`.
+	- `show_consent_form()` - To be called after `consent_form_loaded` signal has been emitted or `is_consent_form_available()` returns `true`.
 
 ## ![](admob/addon_template/icon.png?raw=true) Android Export
 - Make sure that the scene that contains the Admob node is selected in the Godot Editor when building and exporting for Android
