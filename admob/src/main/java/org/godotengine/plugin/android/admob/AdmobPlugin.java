@@ -69,6 +69,7 @@ public class AdmobPlugin extends GodotPlugin {
 	private static final String SIGNAL_BANNER_AD_CLOSED = "banner_ad_closed";
 	private static final String SIGNAL_INTERSTITIAL_AD_LOADED = "interstitial_ad_loaded";
 	private static final String SIGNAL_INTERSTITIAL_AD_FAILED_TO_LOAD = "interstitial_ad_failed_to_load";
+	private static final String SIGNAL_INTERSTITIAL_AD_REFRESHED = "interstitial_ad_refreshed";
 	private static final String SIGNAL_INTERSTITIAL_AD_IMPRESSION = "interstitial_ad_impression";
 	private static final String SIGNAL_INTERSTITIAL_AD_CLICKED = "interstitial_ad_clicked";
 	private static final String SIGNAL_INTERSTITIAL_AD_SHOWED_FULL_SCREEN_CONTENT = "interstitial_ad_showed_full_screen_content";
@@ -164,6 +165,7 @@ public class AdmobPlugin extends GodotPlugin {
 		
 		signals.add(new SignalInfo(SIGNAL_INTERSTITIAL_AD_LOADED, String.class));
 		signals.add(new SignalInfo(SIGNAL_INTERSTITIAL_AD_FAILED_TO_LOAD, String.class, Dictionary.class));
+		signals.add(new SignalInfo(SIGNAL_INTERSTITIAL_AD_REFRESHED, String.class));
 		signals.add(new SignalInfo(SIGNAL_INTERSTITIAL_AD_IMPRESSION, String.class));
 		signals.add(new SignalInfo(SIGNAL_INTERSTITIAL_AD_CLICKED, String.class));
 		signals.add(new SignalInfo(SIGNAL_INTERSTITIAL_AD_SHOWED_FULL_SCREEN_CONTENT, String.class));
@@ -280,6 +282,26 @@ public class AdmobPlugin extends GodotPlugin {
 							@Override
 							public void onAdFailedToLoad(String adId, LoadAdError adError) {
 								emitSignal(SIGNAL_BANNER_AD_FAILED_TO_LOAD, adId, convert(adError));
+							}
+
+							@Override
+							public void onAdClicked(String adId) {
+								emitSignal(SIGNAL_BANNER_AD_CLICKED, adId);
+							}
+
+							@Override
+							public void onAdClosed(String adId) {
+								emitSignal(SIGNAL_BANNER_AD_CLOSED, adId);
+							}
+
+							@Override
+							public void onAdImpression(String adId) {
+								emitSignal(SIGNAL_BANNER_AD_IMPRESSION, adId);
+							}
+
+							@Override
+							public void onAdOpened(String adId) {
+								emitSignal(SIGNAL_BANNER_AD_OPENED, adId);
 							}
 						});
 				bannerAds.put(adId, banner);
@@ -443,6 +465,11 @@ public class AdmobPlugin extends GodotPlugin {
 						@Override
 						public void onInterstitialLoaded(String adId) {
 							emitSignal(SIGNAL_INTERSTITIAL_AD_LOADED, adId);
+						}
+
+						@Override
+						public void onInterstitialReloaded(String adId) {
+							emitSignal(SIGNAL_INTERSTITIAL_AD_REFRESHED, adId);
 						}
 
 						@Override

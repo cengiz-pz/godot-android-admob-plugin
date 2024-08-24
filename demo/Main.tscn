@@ -60,15 +60,16 @@ layout_mode = 2
 disabled = true
 text = "Show Rewarded Interstitial Ad"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer"]
+[node name="GeographyHBoxContainer" type="HBoxContainer" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/GeographyHBoxContainer"]
 layout_mode = 2
-text = "Debug Geography: "
+text = "Debug Geography:           "
 
-[node name="OptionButton" type="OptionButton" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/GeographyHBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 selected = 1
 item_count = 3
 popup/item_0/text = "DISABLED"
@@ -77,17 +78,28 @@ popup/item_1/id = 1
 popup/item_2/text = "NOT EEA"
 popup/item_2/id = 2
 
-[node name="UpdateConsentInfoButton" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
-text = "Update Consent Info"
+theme_override_constants/separation = 10
 
-[node name="ResetConsentButton" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Reset Consent Status"
+text = "Consent Info:          "
+
+[node name="UpdateConsentInfoButton" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Update"
+
+[node name="ResetConsentButton" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Reset"
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(280, 300)
+custom_minimum_size = Vector2(380, 300)
 layout_mode = 2
+theme_override_font_sizes/normal_font_size = 14
 scroll_following = true
 
 [node name="Admob" type="Node" parent="."]
@@ -102,8 +114,8 @@ debug_rewarded_interstitial_id = "ca-app-pub-3940256099942544/5354046379"
 [connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/InterstitialButton" to="." method="_on_interstitial_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/RewardedButton" to="." method="_on_rewarded_video_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/RewardedInterstitialButton" to="." method="_on_rewarded_interstitial_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/UpdateConsentInfoButton" to="." method="_on_update_consent_info_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/ResetConsentButton" to="." method="_on_reset_consent_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer/UpdateConsentInfoButton" to="." method="_on_update_consent_info_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/HBoxContainer/ResetConsentButton" to="." method="_on_reset_consent_button_pressed"]
 [connection signal="banner_ad_failed_to_load" from="Admob" to="." method="_on_admob_banner_ad_failed_to_load"]
 [connection signal="banner_ad_loaded" from="Admob" to="." method="_on_admob_banner_ad_loaded"]
 [connection signal="consent_form_dismissed" from="Admob" to="." method="_on_admob_consent_form_dismissed"]

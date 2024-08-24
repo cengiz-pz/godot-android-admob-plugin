@@ -28,6 +28,10 @@ interface BannerListener {
 	void onAdLoaded(String adId);
 	void onAdRefreshed(String adId);
 	void onAdFailedToLoad(String adId, LoadAdError loadAdError);
+	void onAdImpression(String adId);
+	void onAdClicked(String adId);
+	void onAdOpened(String adId);
+	void onAdClosed(String adId);
 }
 
 
@@ -116,6 +120,22 @@ public class Banner {
 			@Override
 			public void onAdFailedToLoad(@NonNull LoadAdError error) {
 				listener.onAdFailedToLoad(Banner.this.adId, error);
+			}
+
+			public void onAdImpression() {
+				listener.onAdImpression(Banner.this.adId);
+			}
+
+			public void onAdClicked() {
+				listener.onAdClicked(Banner.this.adId);
+			}
+
+			public void onAdOpened() {
+				listener.onAdOpened(Banner.this.adId);
+			}
+
+			public void onAdClosed() {
+				listener.onAdClosed(Banner.this.adId);
 			}
 		};
 

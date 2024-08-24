@@ -16,6 +16,7 @@ signal banner_ad_opened(ad_id: String)
 signal banner_ad_closed(ad_id: String)
 signal interstitial_ad_loaded(ad_id: String)
 signal interstitial_ad_failed_to_load(ad_id: String, error_data: LoadAdError)
+signal interstitial_ad_refreshed(ad_id: String)
 signal interstitial_ad_impression(ad_id: String)
 signal interstitial_ad_clicked(ad_id: String)
 signal interstitial_ad_showed_full_screen_content(ad_id: String)
@@ -128,6 +129,7 @@ func _connect_signals() -> void:
 	_plugin_singleton.connect("banner_ad_closed", _on_banner_ad_closed)
 	_plugin_singleton.connect("interstitial_ad_loaded", _on_interstitial_ad_loaded)
 	_plugin_singleton.connect("interstitial_ad_failed_to_load", _on_interstitial_ad_failed_to_load)
+	_plugin_singleton.connect("interstitial_ad_refreshed", _on_interstitial_ad_refreshed)
 	_plugin_singleton.connect("interstitial_ad_impression", _on_interstitial_ad_impression)
 	_plugin_singleton.connect("interstitial_ad_clicked", _on_interstitial_ad_clicked)
 	_plugin_singleton.connect("interstitial_ad_showed_full_screen_content", _on_interstitial_ad_showed_full_screen_content)
@@ -552,6 +554,10 @@ func _on_interstitial_ad_loaded(a_ad_id: String) -> void:
 
 func _on_interstitial_ad_failed_to_load(a_ad_id: String, error_data: Dictionary) -> void:
 	interstitial_ad_failed_to_load.emit(a_ad_id, LoadAdError.new(error_data))
+
+
+func _on_interstitial_ad_refreshed(a_ad_id: String) -> void:
+	interstitial_ad_refreshed.emit(a_ad_id)
 
 
 func _on_interstitial_ad_impression(a_ad_id: String) -> void:

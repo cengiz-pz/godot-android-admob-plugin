@@ -18,6 +18,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 interface InterstitialListener {
 	void onInterstitialLoaded(String adId);
+	void onInterstitialReloaded(String adId);
 	void onInterstitialFailedToLoad(String adId, LoadAdError loadAdError);
 	void onInterstitialFailedToShow(String adId, AdError adError);
 	void onInterstitialOpened(String adId);
@@ -38,6 +39,8 @@ public class Interstitial {
 
 	private InterstitialAd interstitialAd = null;
 
+	boolean firstLoad;
+
 	Interstitial(final String adId, final String adUnitId, final AdRequest adRequest, final Activity activity,
 				final InterstitialListener listener) {
 		this.adId = adId;
@@ -45,6 +48,7 @@ public class Interstitial {
 		this.adRequest = adRequest;
 		this.activity = activity;
 		this.listener = listener;
+		this.firstLoad = true;
 	}
 
 	void show() {
@@ -118,8 +122,15 @@ public class Interstitial {
 			public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
 				super.onAdLoaded(interstitialAd);
 				setAd(interstitialAd);
-				Log.i(LOG_TAG, "interstitial ad loaded");
-				listener.onInterstitialLoaded(Interstitial.this.adId);
+				if (firstLoad) {
+					Log.i(LOG_TAG, "interstitial ad loaded");
+					firstLoad = false;
+					listener.onInterstitialLoaded(Interstitial.this.adId);
+				}
+				else {
+					Log.i(LOG_TAG, "interstitial ad refreshed");
+					listener.onInterstitialReloaded(Interstitial.this.adId);
+				}
 			}
 
 			@Override
