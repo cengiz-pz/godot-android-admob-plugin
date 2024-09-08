@@ -935,8 +935,10 @@ public class AdmobPlugin extends GodotPlugin {
 			builder.setTagForUnderAgeOfConsent((boolean) data.get("tag_for_under_age_of_consent"));
 		}
 
-		if (data.containsKey("debug_geography") || deviceIds.length > 0) {
+		if (data.containsKey("is_real") && (boolean) data.get("is_real") == false) {
+			Log.d(LOG_TAG, "Creating debug settings for user consent.");
 			ConsentDebugSettings.Builder debugSettingsBuilder = new ConsentDebugSettings.Builder(activity);
+
 			if (data.containsKey("debug_geography")) {
 				debugSettingsBuilder.setDebugGeography((int) data.get("debug_geography"));
 			}
@@ -944,6 +946,7 @@ public class AdmobPlugin extends GodotPlugin {
 			for (String value : deviceIds) {
 				debugSettingsBuilder.addTestDeviceHashedId(value);
 			}
+
 			debugSettingsBuilder.addTestDeviceHashedId(getAdMobDeviceId());
 
 			builder.setConsentDebugSettings(debugSettingsBuilder.build());

@@ -10,6 +10,7 @@ enum DebugGeography {
 	DEBUG_GEOGRAPHY_NOT_EEA = 2
 }
 
+const IS_REAL_PROPERTY: String = "is_real"
 const TAG_FOR_UNDER_AGE_OF_CONSENT_PROPERTY: String = "tag_for_under_age_of_consent"
 const DEBUG_GEOGRAPHY_PROPERTY: String = "debug_geography"
 
@@ -20,6 +21,12 @@ var _device_ids: Array
 func _init():
 	_data = {}
 	_device_ids = []
+
+
+func set_is_real(a_value: bool) -> ConsentRequestParameters:
+	_data[IS_REAL_PROPERTY] = a_value
+
+	return self
 
 
 func set_tag_for_under_age_of_consent(a_value: bool) -> ConsentRequestParameters:

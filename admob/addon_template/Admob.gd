@@ -493,6 +493,7 @@ func update_consent_info(consentRequestParameters: ConsentRequestParameters) -> 
 	if _plugin_singleton == null:
 		printerr("%s plugin not initialized" % PLUGIN_SINGLETON_NAME)
 	else:
+		consentRequestParameters.set_is_real(is_real)
 		_plugin_singleton.update_consent_info(consentRequestParameters.get_raw_data(), consentRequestParameters.get_device_ids())
 
 

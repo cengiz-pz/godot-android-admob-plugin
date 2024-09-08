@@ -13,7 +13,7 @@ plugins {
 val pluginName = "AdmobPlugin"
 val pluginPackageName = "org.godotengine.plugin.android.admob"
 val godotVersion = "4.3.0"
-val pluginVersion = "3.0"
+val pluginVersion = "3.1"
 val demoAddOnsDirectory = "../demo/addons"
 val templateDirectory = "addon_template"
 val pluginDependencies = arrayOf(
