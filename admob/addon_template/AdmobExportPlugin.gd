@@ -60,6 +60,9 @@ class AndroidExportPlugin extends EditorExportPlugin:
 
 	func _get_android_manifest_application_element_contents(platform: EditorExportPlatform, debug: bool) -> String:
 		var __admob_node: Admob = _get_admob_node(EditorInterface.get_edited_scene_root())
+		if not __admob_node:
+			var main_scene = load(ProjectSettings.get_setting("application/run/main_scene")).instantiate()
+			__admob_node = _get_admob_node(main_scene)
 
 		return APP_ID_META_TAG % (__admob_node.real_application_id if __admob_node.is_real else __admob_node.debug_application_id)
 
