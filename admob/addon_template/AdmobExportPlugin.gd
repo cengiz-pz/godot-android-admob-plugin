@@ -63,6 +63,8 @@ class AndroidExportPlugin extends EditorExportPlugin:
 		if not __admob_node:
 			var main_scene = load(ProjectSettings.get_setting("application/run/main_scene")).instantiate()
 			__admob_node = _get_admob_node(main_scene)
+			if not __admob_node:
+				push_error("%s failed to find Admob node!" % PLUGIN_NAME)
 
 		return APP_ID_META_TAG % (__admob_node.real_application_id if __admob_node.is_real else __admob_node.debug_application_id)
 
