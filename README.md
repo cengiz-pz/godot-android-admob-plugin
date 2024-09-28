@@ -141,7 +141,7 @@ If your game crashes due to missing APP ID, then make sure that you enter your A
 Also check out:
 https://docs.godotengine.org/en/stable/tutorials/platform/android/android_plugin.html#troubleshooting
 
-<br/><br/><br/>
+<br/><br/>
 
 ---
 # ![](admob/addon_template/icon.png?raw=true) Credits
@@ -151,7 +151,15 @@ Developed by [Cengiz](https://github.com/cengiz-pz)
 
 Original repository: [Godot Android Admob Plugin](https://github.com/cengiz-pz/godot-android-admob-plugin)
 
-<br/><br/><br/>
+<br/><br/>
+
+---
+# ![](admob/addon_template/icon.png?raw=true) Tutorials
+The following is a video tutorial by [16BitDev](https://www.youtube.com/@16bitdev) that covers the whole process of setting up Admob for your Godot app on Android.
+
+[![Watch the video](https://img.youtube.com/vi/V9_Gpy0R3RE/0.jpg)](https://www.youtube.com/watch?v=V9_Gpy0R3RE)
+
+<br/><br/>
 
 ---
 # ![](admob/addon_template/icon.png?raw=true) All Plugins
