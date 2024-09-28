@@ -121,9 +121,9 @@ Steps:
 	- `show_consent_form()` - To be called after `consent_form_loaded` signal has been emitted or `is_consent_form_available()` returns `true`.
 
 ## ![](admob/addon_template/icon.png?raw=true) Android Export
-- Make sure that the scene that contains the Admob node is selected in the Godot Editor when building and exporting for Android
-	- Close other scenes to make sure
-	- _Admob node will be searched in the scene that is currently open in the Godot Editor_
+During Android export, the plugin searches for an `Admob` node in the scene that is open in the Godot Editor.  If not found, then the plugin searches for an `Admob` node in the project's main scene.  Therefore; 
+- Make sure that the scene that contains the `Admob` node is selected in the Godot Editor when building and exporting for Android, or
+- Make sure that your Godot project's main scene contains an `Admob` node
 
 ## ![](admob/addon_template/icon.png?raw=true) Troubleshooting
 
