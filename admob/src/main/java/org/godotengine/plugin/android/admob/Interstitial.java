@@ -84,7 +84,7 @@ public class Interstitial {
 					public void onAdDismissedFullScreenContent() {
 						super.onAdDismissedFullScreenContent();
 						setAd(null);
-						Log.w(LOG_TAG, "interstitial ad dismissed full screen consent");
+						Log.w(LOG_TAG, "interstitial ad dismissed full screen content");
 						listener.onInterstitialClosed(Interstitial.this.adId);
 						load();
 					}
