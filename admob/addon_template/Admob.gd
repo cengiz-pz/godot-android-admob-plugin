@@ -55,6 +55,14 @@ const PLUGIN_SINGLETON_NAME: String = "@pluginName@"
 @export var personalization_state: AdmobConfig.PersonalizationState = AdmobConfig.PersonalizationState.DEFAULT: set = set_personalization_state
 @export var request_agent: String = PLUGIN_SINGLETON_NAME: set = set_request_agent
 
+@export_group("App Tracking Transparency")
+@export var att_enabled: bool = false:
+	get:
+		return att_enabled
+	set(value):
+		att_enabled = value
+@export_multiline var att_text: String = "": set = set_att_text
+
 @export_category("Banner")
 @export var banner_position: LoadAdRequest.AdPosition = LoadAdRequest.AdPosition.TOP: set = set_banner_position
 @export var banner_size: LoadAdRequest.AdSize = LoadAdRequest.AdSize.BANNER: set = set_banner_size
@@ -191,6 +199,10 @@ func set_personalization_state(a_value: AdmobConfig.PersonalizationState) -> voi
 
 func set_request_agent(a_value: String) -> void:
 	request_agent = a_value
+
+
+func set_att_text(a_value: String) -> void:
+	att_text = a_value
 
 
 func set_banner_position(a_value: LoadAdRequest.AdPosition) -> void:
