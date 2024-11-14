@@ -1,3 +1,0 @@
-[submodule "addon"]
-	path = admob/addon_template
-	url = https://github.com/cengiz-pz/godot-admob-addon.git
