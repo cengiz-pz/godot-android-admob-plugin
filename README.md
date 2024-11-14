@@ -161,6 +161,32 @@ The following is a video tutorial by [16BitDev](https://www.youtube.com/@16bitde
 
 <br/><br/>
 
+
+___
+
+# ![](addon/icon.png?raw=true) Contribution
+
+This section provides information on how to build the plugin for contributors.
+
+<br/>
+
+___
+
+## ![](addon/icon.png?raw=true) Prerequisites
+
+- [Install AndroidStudio](https://developer.android.com/studio)
+
+<br/>
+
+___
+
+## ![](addon/icon.png?raw=true) Refreshing addon submodule
+
+- Remove `admob/addon_template` directory
+- Run `git submodule add -b main --force --name addon https://github.com/cengiz-pz/godot-admob-addon.git admob/addon_template`
+
+<br/><br/>
+
 ---
 # ![](admob/addon_template/icon.png?raw=true) All Plugins
 

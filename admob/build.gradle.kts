@@ -89,7 +89,8 @@ val copyAddonsToDemo by tasks.registering(Copy::class) {
 
     from(templateDirectory)
     into("$demoAddOnsDirectory/$pluginName")
-    exclude("**/*.png")
+    include("**/*.gd")
+    include("**/*.cfg")
     var dependencyString = ""
     for (i in pluginDependencies.indices) {
         dependencyString += "\"${pluginDependencies[i]}\""
