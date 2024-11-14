@@ -1,5 +1,8 @@
 
----
+<p align="center">
+  <img width="256" height="256" src="demo/admob.png">
+</p>
+
 # ![](admob/addon_template/icon.png?raw=true) Android Admob Plugin
 
 Enables AdMob functionality on Godot apps that are exported to the Android platform and allows 
