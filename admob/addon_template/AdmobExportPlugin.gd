@@ -5,7 +5,7 @@
 @tool
 extends EditorPlugin
 
-const PLUGIN_NODE_TYPE_NAME = "Admob"
+const PLUGIN_NODE_TYPE_NAME = "@pluginNodeName@"
 const PLUGIN_PARENT_NODE_TYPE = "Node"
 const PLUGIN_NAME: String = "@pluginName@"
 const PLUGIN_VERSION: String = "@pluginVersion@"
@@ -22,7 +22,7 @@ var export_plugin: AndroidExportPlugin
 
 
 func _enter_tree() -> void:
-	add_custom_type(PLUGIN_NODE_TYPE_NAME, PLUGIN_PARENT_NODE_TYPE, preload("Admob.gd"), preload("icon.png"))
+	add_custom_type(PLUGIN_NODE_TYPE_NAME, PLUGIN_PARENT_NODE_TYPE, preload("%s.gd" % PLUGIN_NODE_TYPE_NAME), preload("icon.png"))
 	export_plugin = AndroidExportPlugin.new()
 	add_export_plugin(export_plugin)
 
@@ -64,7 +64,7 @@ class AndroidExportPlugin extends EditorExportPlugin:
 			var main_scene = load(ProjectSettings.get_setting("application/run/main_scene")).instantiate()
 			__admob_node = _get_admob_node(main_scene)
 			if not __admob_node:
-				push_error("%s failed to find Admob node!" % PLUGIN_NAME)
+				push_error("%s failed to find %s node!" % [PLUGIN_NAME, PLUGIN_NODE_TYPE_NAME])
 
 		return APP_ID_META_TAG % (__admob_node.real_application_id if __admob_node.is_real else __admob_node.debug_application_id)
 

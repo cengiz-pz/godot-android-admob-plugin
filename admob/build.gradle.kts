@@ -11,14 +11,15 @@ plugins {
 }
 
 val pluginName = "AdmobPlugin"
+val pluginNodeName = "Admob"
 val pluginPackageName = "org.godotengine.plugin.android.admob"
 val godotVersion = "4.3.0"
-val pluginVersion = "3.1"
+val pluginVersion = "3.2"
 val demoAddOnsDirectory = "../demo/addons"
 val templateDirectory = "addon_template"
 val pluginDependencies = arrayOf(
     "androidx.appcompat:appcompat:1.7.0",
-    "com.google.android.gms:play-services-ads:23.3.0"
+    "com.google.android.gms:play-services-ads:23.5.0"
 )
 
 android {
@@ -97,6 +98,7 @@ val copyAddonsToDemo by tasks.registering(Copy::class) {
     filter(ReplaceTokens::class,
         "tokens" to mapOf(
             "pluginName" to pluginName,
+            "pluginNodeName" to pluginNodeName,
             "pluginVersion" to pluginVersion,
             "pluginPackage" to pluginPackageName,
             "pluginDependencies" to dependencyString))
