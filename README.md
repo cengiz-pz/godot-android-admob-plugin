@@ -19,8 +19,9 @@ Follow instructions on the following page to create a custom Android gradle buil
 
 Create an AdMob account at the following link:
 - [Google AdMob](https://admob.google.com/)
-- create an App in Admob console
-- create ads for your App via the Admob console
+- create an app in AdMob console
+- [create ad(s)](https://support.google.com/admob/answer/6173650?hl=en) for your app via the AdMob console
+- if needed, [create consent form(s)](https://support.google.com/admob/answer/10113207?hl=en) for your app via the AdMob console
 
 ## ![](admob/addon_template/icon.png?raw=true) Installation
 There are 2 ways to install the `Admob` plugin into your project:
