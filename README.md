@@ -1,4 +1,3 @@
-
 <p align="center">
   <img width="256" height="256" src="demo/admob.png">
 </p>
@@ -114,6 +113,13 @@ Steps:
 	- `show_rewarded_ad(ad_id: String)`
 	- `show_rewarded_interstitial_ad(ad_id: String)`
 
+### ![](admob/addon_template/icon.png?raw=true) Banner Size
+- The following methods return the size of a Banner ad:
+  - `get_banner_dimension()`
+  - `get_banner_dimension_in_pixels()`
+- These methods are not supported for `FLUID` sized ads. For banner ads of size `FLUID`, the `get_banner_dimension()` method will return `(-3, -4)` and the `get_banner_dimension_in_pixels()` method will return `(-1, -1)`.
+
+
 ### ![](admob/addon_template/icon.png?raw=true) User Consent
 - Methods:
 	- `get_consent_status()` - Returns a consent status value defined in `ConsentInformation.gd`
@@ -186,7 +192,7 @@ ___
 ## ![](addon/icon.png?raw=true) Refreshing addon submodule
 
 - Remove `admob/addon_template` directory
-- Run `git submodule add -b main --force --name addon https://github.com/cengiz-pz/godot-admob-addon.git admob/addon_template`
+- Run `git submodule update --remote --merge`
 
 <br/><br/>
 

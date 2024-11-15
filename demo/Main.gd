@@ -5,10 +5,14 @@
 extends Node
 
 @onready var admob: Admob = $Admob as Admob
-@onready var banner_button: Button = $CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/BannerButton
-@onready var interstitial_button: Button = $CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/InterstitialButton
-@onready var rewarded_button: Button = $CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/RewardedButton
-@onready var rewarded_interstitial_button: Button = $CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/RewardedInterstitialButton
+@onready var show_banner_button: Button = $CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/TabContainer/Banner/ButtonsHBoxContainer/ShowBannerButton
+@onready var hide_banner_button: Button = $CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/TabContainer/Banner/ButtonsHBoxContainer/HideBannerButton
+@onready var reload_banner_button: Button = $CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/TabContainer/Banner/ButtonsHBoxContainer/ReloadBannerButton
+@onready var banner_position_option_button: OptionButton = $CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/TabContainer/Banner/PositionHBoxContainer/OptionButton
+@onready var banner_size_option_button: OptionButton = $CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/TabContainer/Banner/SizeHBoxContainer/OptionButton
+@onready var interstitial_button: Button = $CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/TabContainer/Other/InterstitialButton
+@onready var rewarded_button: Button = $CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/TabContainer/Other/RewardedButton
+@onready var rewarded_interstitial_button: Button = $CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/TabContainer/Other/RewardedInterstitialButton
 @onready var _label: RichTextLabel = $CanvasLayer/CenterContainer/VBoxContainer/RichTextLabel as RichTextLabel
 @onready var _geography_option_button: OptionButton = $CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/GeographyHBoxContainer/OptionButton
 
@@ -21,6 +25,20 @@ var _is_rewarded_interstitial_loaded: bool = false
 func _ready() -> void:
 	admob.initialize()
 
+	var __index: int = 0
+	for __item: String in LoadAdRequest.AdPosition.keys():
+		banner_position_option_button.add_item(__item)
+		if __item.casecmp_to(LoadAdRequest.AdPosition.keys()[admob.banner_position]) == 0:
+			banner_position_option_button.select(__index)
+		__index += 1
+
+	__index = 0
+	for __item in LoadAdRequest.AdSize.keys():
+		banner_size_option_button.add_item(__item)
+		if __item.casecmp_to(LoadAdRequest.AdSize.keys()[admob.banner_size]) == 0:
+			banner_size_option_button.select(__index)
+		__index += 1
+
 
 func _on_admob_initialization_completed(status_data: InitializationStatus) -> void:
 	_process_consent_status(admob.get_consent_status())
@@ -30,13 +48,43 @@ func _on_admob_initialization_completed(status_data: InitializationStatus) -> vo
 	admob.load_rewarded_interstitial_ad()
 
 
-func _on_banner_button_pressed() -> void:
-	print(" ------- Banner button PRESSED")
+func _on_size_button_pressed() -> void:
+	print(" ------- Get banner size button PRESSED")
+	if _is_banner_loaded:
+		_print_to_screen("Banner size: " + str(admob.get_banner_dimension()))
+
+
+func _on_pixel_size_button_pressed() -> void:
+	print(" ------- Get banner pixel size button PRESSED")
+	if _is_banner_loaded:
+		_print_to_screen("Banner size in pixels: " + str(admob.get_banner_dimension_in_pixels()))
+
+
+func _on_show_banner_button_pressed() -> void:
+	print(" ------- Show banner button PRESSED")
+	if _is_banner_loaded:
+		show_banner_button.disabled = true
+		hide_banner_button.disabled = false
+		admob.show_banner_ad()
+
+
+func _on_hide_banner_button_pressed() -> void:
+	print(" ------- Hide banner button PRESSED")
+	if _is_banner_loaded:
+		show_banner_button.disabled = false
+		hide_banner_button.disabled = true
+		admob.hide_banner_ad()
+
+
+func _on_reload_banner_button_pressed() -> void:
+	print(" ------- Reload banner button PRESSED")
 	if _is_banner_loaded:
 		_is_banner_loaded = false
-		banner_button.disabled = true
-		admob.show_banner_ad()
-	else:
+		show_banner_button.disabled = true
+		reload_banner_button.disabled = true
+		admob.remove_banner_ad(admob._active_banner_ads[0])
+		admob.banner_position = LoadAdRequest.AdPosition[banner_position_option_button.get_item_text(banner_position_option_button.selected)]
+		admob.banner_size = LoadAdRequest.AdSize[banner_size_option_button.get_item_text(banner_size_option_button.selected)]
 		admob.load_banner_ad()
 
 
@@ -76,8 +124,13 @@ func _on_reset_consent_button_pressed() -> void:
 
 func _on_admob_banner_ad_loaded(ad_id: String) -> void:
 	_is_banner_loaded = true
-	banner_button.disabled = false
+	show_banner_button.disabled = false
+	reload_banner_button.disabled = false
 	_print_to_screen("banner loaded: %s" % ad_id)
+
+
+func _on_admob_banner_ad_refreshed(ad_id: String) -> void:
+	_print_to_screen("banner refreshed: %s" % ad_id)
 
 
 func _on_admob_banner_ad_failed_to_load(ad_id: String, error_data: LoadAdError) -> void:
@@ -94,6 +147,14 @@ func _on_admob_interstitial_ad_loaded(ad_id: String) -> void:
 func _on_admob_interstitial_ad_failed_to_load(ad_id: String, error_data: LoadAdError) -> void:
 	_print_to_screen("interstitial failed to load. error: %d, message: %s" %
 				[error_data.get_code(), error_data.get_message()], true)
+
+
+func _on_admob_interstitial_ad_refreshed(ad_id: String) -> void:
+	_print_to_screen("interstitial refreshed: %s" % ad_id)
+
+
+func _on_admob_interstitial_ad_dismissed_full_screen_content(ad_id: String) -> void:
+	_print_to_screen("interstitial closed: %s" % ad_id)
 
 
 func _on_admob_rewarded_ad_loaded(ad_id: String) -> void:
@@ -154,14 +215,6 @@ func _process_consent_status(a_consent_status: int) -> void:
 			_print_to_screen("consent has already been obtained")
 
 
-func _print_to_screen(a_message: String, a_is_error: bool = false) -> void:
-	_label.add_text("%s\n\n" % a_message)
-	if a_is_error:
-		printerr(a_message)
-	else:
-		print(a_message)
-
-
 func _on_admob_consent_form_loaded() -> void:
 	_print_to_screen("consent form has been loaded")
 	admob.show_consent_form()
@@ -180,3 +233,11 @@ func _on_update_consent_info_button_pressed() -> void:
 	admob.update_consent_info(ConsentRequestParameters.new()
 		.set_debug_geography(ConsentRequestParameters.DebugGeography.values()[_geography_option_button.selected])
 		.add_test_device_hashed_id(OS.get_unique_id()))
+
+
+func _print_to_screen(a_message: String, a_is_error: bool = false) -> void:
+	_label.add_text("%s\n\n" % a_message)
+	if a_is_error:
+		printerr(a_message)
+	else:
+		print(a_message)
