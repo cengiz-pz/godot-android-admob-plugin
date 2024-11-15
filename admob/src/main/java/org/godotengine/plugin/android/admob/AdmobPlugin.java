@@ -425,9 +425,9 @@ public class AdmobPlugin extends GodotPlugin {
 		int result = 0;
 
 		if (bannerAds.containsKey(adId)) {
-			Log.d(LOG_TAG, String.format("get_banner_width_in_pixels(): %s", adId));
 			Banner bannerAd = bannerAds.get(adId);
 			result = bannerAd.getWidthInPixels();
+			Log.d(LOG_TAG, String.format("get_banner_width_in_pixels(): %s - %d", adId, result));
 		}
 		else {
 			Log.e(LOG_TAG, String.format("get_banner_width_in_pixels(): Error: banner ad %s not found", adId));
@@ -441,9 +441,9 @@ public class AdmobPlugin extends GodotPlugin {
 		int result = 0;
 
 		if (bannerAds.containsKey(adId)) {
-			Log.d(LOG_TAG, String.format("get_banner_height_in_pixels(): %s", adId));
 			Banner bannerAd = bannerAds.get(adId);
 			result = bannerAd.getHeightInPixels();
+			Log.d(LOG_TAG, String.format("get_banner_height_in_pixels(): %s - %d", adId, result));
 		}
 		else {
 			Log.e(LOG_TAG, String.format("get_banner_height_in_pixels(): Error: banner ad %s not found", adId));
@@ -766,13 +766,13 @@ public class AdmobPlugin extends GodotPlugin {
 	}
 
 	@UsedByGodot
-	public void update_consent_info(Dictionary consentRequestParameters, String[] deviceIds) {
+	public void update_consent_info(Dictionary consentRequestParameters) {
 		Log.d(LOG_TAG, "update_consent_info()");
 		ConsentInformation consentInformation = UserMessagingPlatform.getConsentInformation(activity);
 
 		consentInformation.requestConsentInfoUpdate(
 			activity,
-			createConsentRequestParameters(consentRequestParameters, deviceIds),
+			createConsentRequestParameters(consentRequestParameters),
 			(ConsentInformation.OnConsentInfoUpdateSuccessListener) () -> {
 				emitSignal(SIGNAL_CONSENT_INFO_UPDATED);
 			},
@@ -930,7 +930,7 @@ public class AdmobPlugin extends GodotPlugin {
 		return builder.build();
 	}
 
-	private ConsentRequestParameters createConsentRequestParameters(Dictionary data, String[] deviceIds) {
+	private ConsentRequestParameters createConsentRequestParameters(Dictionary data) {
 		ConsentRequestParameters.Builder builder = new ConsentRequestParameters.Builder();
 
 		if (data.containsKey("tag_for_under_age_of_consent")) {
@@ -943,10 +943,6 @@ public class AdmobPlugin extends GodotPlugin {
 
 			if (data.containsKey("debug_geography")) {
 				debugSettingsBuilder.setDebugGeography((int) data.get("debug_geography"));
-			}
-
-			for (String value : deviceIds) {
-				debugSettingsBuilder.addTestDeviceHashedId(value);
 			}
 
 			debugSettingsBuilder.addTestDeviceHashedId(getAdMobDeviceId());
