@@ -347,34 +347,6 @@ public class AdmobPlugin extends GodotPlugin {
 	}
 
 	@UsedByGodot
-	public void move_banner_ad(String adId, String adPosition) {
-		activity.runOnUiThread(() -> {
-			if (bannerAds.containsKey(adId)) {
-				Log.d(LOG_TAG, String.format("move_banner_ad(): %s", adId));
-				Banner bannerAd = bannerAds.get(adId);
-				bannerAd.move(adPosition);
-			}
-			else {
-				Log.e(LOG_TAG, String.format("move_banner_ad(): Error: banner ad %s not found", adId));
-			}
-		});
-	}
-
-	@UsedByGodot
-	public void resize_banner_ad(String adId) {
-		activity.runOnUiThread(() -> {
-			if (bannerAds.containsKey(adId)) {
-				Log.d(LOG_TAG, String.format("resize_banner_ad(): %s", adId));
-				Banner bannerAd = bannerAds.get(adId);
-				bannerAd.resize();
-			}
-			else {
-				Log.e(LOG_TAG, String.format("resize_banner_ad(): Error: banner ad %s not found", adId));
-			}
-		});
-	}
-
-	@UsedByGodot
 	public void remove_banner_ad(String adId) {
 		activity.runOnUiThread(() -> {
 			if (bannerAds.containsKey(adId)) {
