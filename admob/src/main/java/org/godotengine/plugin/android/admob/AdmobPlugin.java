@@ -848,8 +848,13 @@ public class AdmobPlugin extends GodotPlugin {
 	private Dictionary convert(FormError error) {
 		Dictionary dict = new Dictionary();
 
-		dict.put("code", error.getErrorCode());
-		dict.put("message", error.getMessage());
+		if (error == null) {
+			dict.put("code", 0);
+			dict.put("message", "");
+		} else {
+			dict.put("code", error.getErrorCode());
+			dict.put("message", error.getMessage());
+		}
 
 		return dict;
 	}
