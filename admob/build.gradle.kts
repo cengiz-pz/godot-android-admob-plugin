@@ -14,12 +14,12 @@ val pluginName = "AdmobPlugin"
 val pluginNodeName = "Admob"
 val pluginPackageName = "org.godotengine.plugin.android.admob"
 val godotVersion = "4.3.0"
-val pluginVersion = "3.2"
+val pluginVersion = "3.3"
 val demoAddOnsDirectory = "../demo/addons"
 val templateDirectory = "addon_template"
 val pluginDependencies = arrayOf(
     "androidx.appcompat:appcompat:1.7.0",
-    "com.google.android.gms:play-services-ads:23.5.0"
+    "com.google.android.gms:play-services-ads:23.6.0"
 )
 
 android {
@@ -36,7 +36,7 @@ android {
         manifestPlaceholders["godotPluginName"] = pluginName
         manifestPlaceholders["godotPluginPackageName"] = pluginPackageName
         buildConfigField("String", "GODOT_PLUGIN_NAME", "\"${pluginName}\"")
-        setProperty("archivesBaseName", "$pluginName-$pluginVersion")
+        setProperty("archivesBaseName", "$pluginName")
     }
 
     compileOptions {
@@ -57,14 +57,14 @@ dependencies {
 val copyDebugAARToDemoAddons by tasks.registering(Copy::class) {
     description = "Copies the generated debug AAR binary to the plugin's addons directory"
     from("build/outputs/aar")
-    include("$pluginName-$pluginVersion-debug.aar")
+    include("$pluginName-debug.aar")
     into("$demoAddOnsDirectory/$pluginName/bin/debug")
 }
 
 val copyReleaseAARToDemoAddons by tasks.registering(Copy::class) {
     description = "Copies the generated release AAR binary to the plugin's addons directory"
     from("build/outputs/aar")
-    include("$pluginName-$pluginVersion-release.aar")
+    include("$pluginName-release.aar")
     into("$demoAddOnsDirectory/$pluginName/bin/release")
 }
 
