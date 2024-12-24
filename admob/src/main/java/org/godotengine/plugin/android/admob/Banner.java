@@ -199,7 +199,7 @@ public class Banner {
 
 	private void addBanner(final int gravity, final AdSize size) {
 		adParams = new FrameLayout.LayoutParams(
-				FrameLayout.LayoutParams.MATCH_PARENT,
+				FrameLayout.LayoutParams.WRAP_CONTENT,
 				FrameLayout.LayoutParams.WRAP_CONTENT
 		);
 		adParams.gravity = gravity;
