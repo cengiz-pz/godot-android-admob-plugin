@@ -174,7 +174,7 @@ The following is a video tutorial by [16BitDev](https://www.youtube.com/@16bitde
 
 ___
 
-# ![](addon/icon.png?raw=true) Contribution
+# ![](admob/addon_template/icon.png?raw=true) Contribution
 
 This section provides information on how to build the plugin for contributors.
 
@@ -182,7 +182,7 @@ This section provides information on how to build the plugin for contributors.
 
 ___
 
-## ![](addon/icon.png?raw=true) Prerequisites
+## ![](admob/addon_template/icon.png?raw=true) Prerequisites
 
 - [Install AndroidStudio](https://developer.android.com/studio)
 
@@ -190,7 +190,7 @@ ___
 
 ___
 
-## ![](addon/icon.png?raw=true) Refreshing addon submodule
+## ![](admob/addon_template/icon.png?raw=true) Refreshing addon submodule
 
 - Remove `admob/addon_template` directory
 - Run `git submodule update --remote --merge`
