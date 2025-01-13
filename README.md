@@ -131,6 +131,27 @@ Steps:
 	- `show_consent_form()` - To be called after `consent_form_loaded` signal has been emitted or `is_consent_form_available()` returns `true`.
 
 ## ![](admob/addon_template/icon.png?raw=true) Android Export
+Android export requires several configuration settings.
+
+### ![](admob/addon_template/icon.png?raw=true) File-based Export Configuration
+In order to enable file-based export configuration, an `export.cfg` file should be placed in the `addons/AdmobPlugin` directory with the following content:
+
+```
+[General]
+is_real = false
+
+[Debug]
+app_id = "ca-app-pub-3940256099942544~3347511713"
+
+[Release]
+app_id = "ca-app-pub-3940256099942544~3347511713"
+```
+
+The `is_real` and `app_id` configuration items are mandatory and if not found in the `export.cfg` file, then the plugin will fall back to node-based configuration.
+
+### ![](admob/addon_template/icon.png?raw=true) Node-based Export Configuration
+If `export.cfg` file is not found or file-based configuration fails, then the plugin will attempt to load node-based configuration.
+
 During Android export, the plugin searches for an `Admob` node in the scene that is open in the Godot Editor.  If not found, then the plugin searches for an `Admob` node in the project's main scene.  Therefore; 
 - Make sure that the scene that contains the `Admob` node is selected in the Godot Editor when building and exporting for Android, or
 - Make sure that your Godot project's main scene contains an `Admob` node
