@@ -24,6 +24,10 @@ Create an AdMob account at the following link:
 - if needed, [create consent form(s)](https://support.google.com/admob/answer/10113207?hl=en) for your app via the AdMob console
 
 ## ![](admob/addon_template/icon.png?raw=true) Installation
+_Before installing this plugin, make sure to uninstall any previous versions of the same plugin._
+
+_If installing both Android and iOS versions of the plugin in the same project, then make sure that both versions use the same addon interface version._
+
 There are 2 ways to install the `Admob` plugin into your project:
 - Through the Godot Editor's AssetLib
 - Manually by downloading archives from Github
@@ -38,12 +42,16 @@ Steps:
 	- click `Install` button
 - enable the plugin via the `Plugins` tab of `Project->Project Settings...` menu, in the Godot Editor
 
+#### ![](addon/icon.png?raw=true) Installing both Android and iOS versions of the plugin in the same project
+When installing via AssetLib, the installer may display a warning that states "_[x number of]_ files conflict with your project and won't be installed." You can ignore this warning since both versions use the same addon code.
+
 ### ![](admob/addon_template/icon.png?raw=true) Installing manually
 Steps:
 - download release archive from Github
 - unzip the release archive
 - copy to your Godot project's root directory
 - enable the plugin via the `Plugins` tab of `Project->Project Settings...` menu, in the Godot Editor
+
 
 ## ![](admob/addon_template/icon.png?raw=true) Usage
 - Add `Admob` node to your main scene and populate the ID fields of the node
@@ -120,7 +128,6 @@ Steps:
   - `get_banner_dimension_in_pixels()`
 - These methods are not supported for `FLUID` sized ads. For banner ads of size `FLUID`, the `get_banner_dimension()` method will return `(-3, -4)` and the `get_banner_dimension_in_pixels()` method will return `(-1, -1)`.
 
-
 ### ![](admob/addon_template/icon.png?raw=true) User Consent
 - Methods:
 	- `get_consent_status()` - Returns a consent status value defined in `ConsentInformation.gd`
@@ -129,6 +136,7 @@ Steps:
 	- `is_consent_form_available()`
 	- `load_consent_form()` - To be called if `get_consent_status()` returns status REQUIRED (2) and `is_consent_form_available()` returns `false`.
 	- `show_consent_form()` - To be called after `consent_form_loaded` signal has been emitted or `is_consent_form_available()` returns `true`.
+
 
 ## ![](admob/addon_template/icon.png?raw=true) Android Export
 Android export requires several configuration settings.
@@ -155,6 +163,7 @@ If `export.cfg` file is not found or file-based configuration fails, then the pl
 During Android export, the plugin searches for an `Admob` node in the scene that is open in the Godot Editor.  If not found, then the plugin searches for an `Admob` node in the project's main scene.  Therefore; 
 - Make sure that the scene that contains the `Admob` node is selected in the Godot Editor when building and exporting for Android, or
 - Make sure that your Godot project's main scene contains an `Admob` node
+
 
 ## ![](admob/addon_template/icon.png?raw=true) Troubleshooting
 
@@ -191,7 +200,6 @@ The following is a video tutorial by [16BitDev](https://www.youtube.com/@16bitde
 [![Watch the video](https://img.youtube.com/vi/V9_Gpy0R3RE/0.jpg)](https://www.youtube.com/watch?v=V9_Gpy0R3RE)
 
 <br/><br/>
-
 
 ___
 
