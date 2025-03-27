@@ -1,11 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://daro5x6n3pd26"]
+[gd_scene load_steps=4 format=3 uid="uid://ob3wnlx8tywe"]
 
-[ext_resource type="Script" uid="uid://bcqb5hwnjbtob" path="res://Main.gd" id="1_wt50o"]
-[ext_resource type="Script" uid="uid://mmdhpqq4toqn" path="res://addons/AdmobPlugin/Admob.gd" id="2_4x6et"]
-[ext_resource type="Texture2D" uid="uid://bdjwuj5g73wl3" path="res://admob.png" id="2_qti4s"]
+[ext_resource type="Script" uid="uid://d1sj8uyx056mr" path="res://scene/Scene2.gd" id="1_vwd77"]
+[ext_resource type="Texture2D" uid="uid://bdjwuj5g73wl3" path="res://admob.png" id="2_uma2v"]
+[ext_resource type="Script" uid="uid://mmdhpqq4toqn" path="res://addons/AdmobPlugin/Admob.gd" id="3_2ewgo"]
 
 [node name="Main" type="Node"]
-script = ExtResource("1_wt50o")
+script = ExtResource("1_vwd77")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -26,7 +26,7 @@ theme_override_constants/separation = 20
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 128)
 layout_mode = 2
-texture = ExtResource("2_qti4s")
+texture = ExtResource("2_uma2v")
 expand_mode = 3
 stretch_mode = 5
 
@@ -37,10 +37,10 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 24
-text = "Admob Demo (Main Scene)"
+text = "Admob Demo (Scene 2)"
 horizontal_alignment = 1
 
-[node name="Scene2Button" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer"]
+[node name="MainSceneButton" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Switch"
 
@@ -183,14 +183,14 @@ theme_override_font_sizes/normal_font_size = 14
 scroll_following = true
 
 [node name="Admob" type="Node" parent="."]
-script = ExtResource("2_4x6et")
+script = ExtResource("3_2ewgo")
 debug_application_id = "ca-app-pub-3940256099942544~3347511713"
 debug_banner_id = "ca-app-pub-3940256099942544/6300978111"
 debug_interstitial_id = "ca-app-pub-3940256099942544/1033173712"
 debug_rewarded_id = "ca-app-pub-3940256099942544/5224354917"
 debug_rewarded_interstitial_id = "ca-app-pub-3940256099942544/5354046379"
 
-[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/Scene2Button" to="." method="_on_scene_2_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/MainSceneButton" to="." method="_on_main_scene_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/TabContainer/Banner/SizeButtonHBoxContainer/SizeButton" to="." method="_on_size_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/TabContainer/Banner/SizeButtonHBoxContainer/PixelSizeButton" to="." method="_on_pixel_size_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/TabContainer/Banner/ButtonsHBoxContainer/ShowBannerButton" to="." method="_on_show_banner_button_pressed"]

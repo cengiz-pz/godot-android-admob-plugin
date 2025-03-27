@@ -243,5 +243,5 @@ func _print_to_screen(a_message: String, a_is_error: bool = false) -> void:
 		print(a_message)
 
 
-func _on_scene_2_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://scene/Scene2.tscn")
+func _on_main_scene_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://Main.tscn")
