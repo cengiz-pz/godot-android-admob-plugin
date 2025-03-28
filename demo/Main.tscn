@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://daro5x6n3pd26"]
 
 [ext_resource type="Script" uid="uid://bcqb5hwnjbtob" path="res://Main.gd" id="1_wt50o"]
-[ext_resource type="Script" uid="uid://mmdhpqq4toqn" path="res://addons/AdmobPlugin/Admob.gd" id="2_4x6et"]
+[ext_resource type="Script" uid="uid://dt020a05o6py8" path="res://addons/AdmobPlugin/Admob.gd" id="2_4x6et"]
 [ext_resource type="Texture2D" uid="uid://bdjwuj5g73wl3" path="res://admob.png" id="2_qti4s"]
 
 [node name="Main" type="Node"]
