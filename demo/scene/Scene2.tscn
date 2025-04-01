@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d1sj8uyx056mr" path="res://scene/Scene2.gd" id="1_vwd77"]
 [ext_resource type="Texture2D" uid="uid://bdjwuj5g73wl3" path="res://admob.png" id="2_uma2v"]
-[ext_resource type="Script" uid="uid://dt020a05o6py8" path="res://addons/AdmobPlugin/Admob.gd" id="3_2ewgo"]
+[ext_resource type="Script" uid="uid://b8ayp8io5uvmn" path="res://addons/AdmobPlugin/Admob.gd" id="3_2ewgo"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_vwd77")
