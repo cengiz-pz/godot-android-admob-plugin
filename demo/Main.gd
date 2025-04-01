@@ -235,13 +235,13 @@ func _on_update_consent_info_button_pressed() -> void:
 		.add_test_device_hashed_id(OS.get_unique_id()))
 
 
+func _on_scene_2_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://scene/Scene2.tscn")
+
+
 func _print_to_screen(a_message: String, a_is_error: bool = false) -> void:
 	_label.add_text("%s\n\n" % a_message)
 	if a_is_error:
 		printerr(a_message)
 	else:
 		print(a_message)
-
-
-func _on_scene_2_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://scene/Scene2.tscn")
