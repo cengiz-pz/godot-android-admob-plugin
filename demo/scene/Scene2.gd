@@ -235,8 +235,8 @@ func _on_update_consent_info_button_pressed() -> void:
 		.add_test_device_hashed_id(OS.get_unique_id()))
 
 
-func _on_scene_2_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://scene/Scene2.tscn")
+func _on_main_scene_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://Main.tscn")
 
 
 func _print_to_screen(a_message: String, a_is_error: bool = false) -> void:

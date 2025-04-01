@@ -13,13 +13,14 @@ plugins {
 val pluginName = "AdmobPlugin"
 val pluginNodeName = "Admob"
 val pluginPackageName = "org.godotengine.plugin.android.admob"
-val godotVersion = "4.3.0"
-val pluginVersion = "3.3"
+val godotVersion = "4.4.1"
+val pluginVersion = "4.0"
+val targetOs = "android"
 val demoAddOnsDirectory = "../demo/addons"
 val templateDirectory = "addon_template"
 val pluginDependencies = arrayOf(
     "androidx.appcompat:appcompat:1.7.0",
-    "com.google.android.gms:play-services-ads:23.6.0"
+    "com.google.android.gms:play-services-ads:24.0.0"
 )
 
 android {
@@ -31,7 +32,7 @@ android {
     }
 
     defaultConfig {
-        minSdk = 21
+        minSdk = 23
 
         manifestPlaceholders["godotPluginName"] = pluginName
         manifestPlaceholders["godotPluginPackageName"] = pluginPackageName
@@ -102,6 +103,7 @@ val copyAddonsToDemo by tasks.registering(Copy::class) {
             "pluginNodeName" to pluginNodeName,
             "pluginVersion" to pluginVersion,
             "pluginPackage" to pluginPackageName,
+            "targetOs" to targetOs,
             "pluginDependencies" to dependencyString))
 }
 
