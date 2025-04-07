@@ -72,7 +72,7 @@ body:
       - "3.3"
       - "4.0"
       - Other
-    default: 1
+    default: 4
   validations:
     required: true
 - type: dropdown
