@@ -121,10 +121,7 @@ tasks.named<Delete>("clean").apply {
 }
 
 afterEvaluate {
-    tasks.named("assembleDebug").configure {
-        finalizedBy(copyAddonsToDemo)
-    }
-    tasks.named("assembleRelease").configure {
+    tasks.named("assemble").configure {
         finalizedBy(copyAddonsToDemo)
     }
 }
