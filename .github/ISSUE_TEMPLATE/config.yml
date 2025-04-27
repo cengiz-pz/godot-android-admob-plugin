@@ -1,2 +1,11 @@
 # disable blank issue creation
 blank_issues_enabled: false
+
+contact_links:
+  - name: Bugs
+    url: https://github.com/godot-sdk-integrations/godot-admob-plugin/issues
+    about: Please report bugs on the new repository.
+
+  - name: Feature Requests
+    url: https://github.com/godot-sdk-integrations/godot-admob-plugin/issues
+    about: Please submit feature requests on the new repository.
