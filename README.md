@@ -1,6 +1,6 @@
 <span style="color:crimson; font-size:large; font-weight:bold; font-style:italic;">27/04/2025: This repository has moved under the Godot SDK Integrations Github organization. Future releases will be published at the new repository:</span>
 
-### https://github.com/godot-sdk-integrations/godot-admob-plugin
+### https://github.com/godot-sdk-integrations/godot-admob
 
 <br/><br/>
 
