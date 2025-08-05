@@ -1,4 +1,5 @@
-<span style="color:crimson; font-size:large; font-weight:bold; font-style:italic;">27/04/2025: This repository has moved under the Godot SDK Integrations Github organization. Future releases will be published at the new repository:</span>
+$${\color{red}27/04/2025: \space This \space repository \space has \space moved \space under \space the \space Godot \space SDK \space Integrations \space Github \space organization.}$$
+$${\color{red}Future \space releases \space will \space be \space published \space at \space the \space new \space repository:}$$
 
 ### https://github.com/godot-sdk-integrations/godot-admob
 
